@@ -7,20 +7,25 @@ public class PlayerController : MonoBehaviour
     [SerializeField] PlayerStatus playerStatus;
     Rigidbody2D playerRb;
     InputSystem_Actions controls;
-    [SerializeField] float maxRunSpeed = 5f;
-    [SerializeField] float moveForce = 20f;
-    [SerializeField] float jumpForce = 20f;
-    [SerializeField] float wallJumpX = 1.0f;
-    [SerializeField] float wallJumpY = 0.7f;
-    [SerializeField] float airBorneForceRestriction = 0.6f;
-    [SerializeField] float wallJumpLockDuration = 0.2f;
-    float wallJumpLockTimer;
-    bool jumpRequested = false;
-
-    [SerializeField] float wallCheckDistance = 0.2f;
+    
     // two transforms on right and left edges of the player that cast ray to check for walls
     [SerializeField] Transform wallCheckpointLeft;
     [SerializeField] Transform wallCheckpointRight;
+
+    [SerializeField] float maxRunSpeed = 5f;
+    [SerializeField] float moveForce = 40f;
+    [SerializeField] float groundDecel = 60f; // how fast you stop when releasing input, grounded
+    [SerializeField] float airDecel = 20f; // slower stop in air feels more natural
+    [SerializeField] float jumpSpeed = 12f;
+    [SerializeField] float wallJumpSpeedX = 8f;
+    [SerializeField] float wallJumpSpeedY = 12f;
+    [SerializeField] float fallGravityMultiplier = 2.5f; // extra pull while falling, for a snappy drop
+    [SerializeField] float airBorneForceRestriction = 0.6f;
+    [SerializeField] float wallJumpLockDuration = 0.2f;
+    [SerializeField] float wallCheckDistance = 0.2f;
+    float wallJumpLockTimer;
+    bool jumpRequested = false;
+
     bool touchingWallLeft;
     bool touchingWallRight;
     
@@ -54,46 +59,53 @@ public class PlayerController : MonoBehaviour
         CheckWalls();
         // move
         Vector2 movementInput = controls.Player.Move.ReadValue<Vector2>();
-        if (playerStatus == PlayerStatus.Grounded)
-        {
-            playerRb.AddForce(Vector2.right * moveForce * movementInput.x);
-        }
-        else if (playerStatus == PlayerStatus.Airborne || playerStatus == PlayerStatus.WallSliding)
-        {
-            playerRb.AddForce(Vector2.right * moveForce * movementInput.x * airBorneForceRestriction);
-        }
-        // restrict speed to maxRunSpeed
-        playerRb.linearVelocityX = Mathf.Clamp(playerRb.linearVelocityX, -maxRunSpeed, maxRunSpeed);
+        bool noInput = Mathf.Approximately(movementInput.x, 0f);
 
-        // jump
+        if (playerStatus != PlayerStatus.WallJumping)
+        {
+            float force = (playerStatus == PlayerStatus.Grounded) ? moveForce : moveForce * airBorneForceRestriction;
+            playerRb.AddForce(Vector2.right * force * movementInput.x);
+            // Deceleration when there is no input
+            if (noInput)
+            {
+                float decel = (playerStatus == PlayerStatus.Grounded) ? groundDecel : airDecel;
+                playerRb.linearVelocityX = Mathf.MoveTowards(playerRb.linearVelocityX, 0f, decel * Time.fixedDeltaTime);
+            }
+            // restrict linear velocity on x axis to maxRunSpeed
+            playerRb.linearVelocityX = Mathf.Clamp(playerRb.linearVelocityX, -maxRunSpeed, maxRunSpeed);
+        }
 
-        // WallJumping: no horizontal input control at all during the lock — let the impulse carry you
+        // Snappier fall, independent of Gravity Scale
+        if (playerRb.linearVelocityY < 0f)
+        {
+            playerRb.AddForce(Vector2.up * Physics2D.gravity.y * playerRb.gravityScale * (fallGravityMultiplier - 1f) * playerRb.mass);
+        }
+
         if (playerStatus == PlayerStatus.WallJumping)
         {
             wallJumpLockTimer -= Time.fixedDeltaTime;
-            if (wallJumpLockTimer <= 0)
+            if (wallJumpLockTimer <= 0f)
             {
                 playerStatus = PlayerStatus.Airborne;
             }
         }
-        
+
         if (jumpRequested && playerStatus != PlayerStatus.Airborne)
         {
             if (playerStatus == PlayerStatus.Grounded)
             {
-                playerRb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+                playerRb.linearVelocityY = jumpSpeed;
                 playerStatus = PlayerStatus.Airborne;
             }
             else if (playerStatus == PlayerStatus.WallSliding)
             {
-                Vector2 jumpDirection = touchingWallLeft ? new Vector2(wallJumpX, wallJumpY) : new Vector2(-wallJumpX, wallJumpY);
-                playerRb.AddForce(jumpDirection * jumpForce, ForceMode2D.Impulse);
+                float dirX = (touchingWallLeft) ? wallJumpSpeedX : -wallJumpSpeedX;
+                playerRb.linearVelocity = new Vector2(dirX, wallJumpSpeedY);
                 playerStatus = PlayerStatus.WallJumping;
                 wallJumpLockTimer = wallJumpLockDuration;
-                
             }
         }
-        jumpRequested = false;  // consume it either way, so stale presses don't fire late
+        jumpRequested = false; // consume it either way, so stale presses don't fire late
 
     }
 

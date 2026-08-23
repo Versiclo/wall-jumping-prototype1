@@ -548,9 +548,9 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDamping: 3
+  m_LinearDamping: 0
   m_AngularDamping: 0.05
-  m_GravityScale: 10
+  m_GravityScale: 7
   m_Material: {fileID: 6200000, guid: 8adc440606317c0469f66a64299d0d41, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
@@ -574,17 +574,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54812fc48472ef5459ef603357f67859, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
-  playerStatus: 0
+  playerStatus: 1
+  wallCheckpointLeft: {fileID: 0}
+  wallCheckpointRight: {fileID: 0}
   maxRunSpeed: 5
-  moveForce: 600
-  jumpForce: 50
-  wallJumpX: 1
-  wallJumpY: 0.7
+  moveForce: 500
+  groundDecel: 60
+  airDecel: 20
+  jumpSpeed: 30
+  wallJumpSpeedX: 20
+  wallJumpSpeedY: 20
+  fallGravityMultiplier: 2.5
   airBorneForceRestriction: 0.6
   wallJumpLockDuration: 0.2
   wallCheckDistance: 0.2
-  wallCheckpointLeft: {fileID: 0}
-  wallCheckpointRight: {fileID: 0}
 --- !u!1 &1649077057
 GameObject:
   m_ObjectHideFlags: 0
