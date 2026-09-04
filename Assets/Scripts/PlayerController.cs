@@ -1,14 +1,26 @@
-using NUnit.Framework;
+using System;
 using UnityEngine;
 
 // wallJumping status keeps the player from sticking to another wall for a certan duration (wallJumpLockDuration)
 public enum PlayerStatus {Grounded, Airborne, WallSliding, WallJumping}
+
+// used to tag which kind of jump is currently being tracked for metrics
+public enum JumpType {Grounded, WallJump}
 
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] PlayerStatus playerStatus;
     Rigidbody2D playerRb;
     InputSystem_Actions controls;
+
+    // --- Jump metric events -------------------------------------------------
+    // JumpMetricsLogger (or anything else) can subscribe to these without
+    // PlayerController knowing or caring that a listener exists.
+    public event Action<JumpType> OnJumpStart;
+    public event Action<float, float> OnApexReached; // (apex height, time to apex)
+    public event Action<Vector2, float, JumpType> OnLanded; // (displacement, airtime, jump type)
+    public event Action<float, float> OnReturnToLaunchHeight; // (horizontal distance, time elapsed) — fires when descending back through the launch Y, independent of where the actual ground is
+    // -------------------------------------------------------------------------
     
     // two transforms on right and left edges of the player that cast ray to check for walls
     [SerializeField] Transform wallCheckpointLeft;
@@ -33,7 +45,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float wallStickDuration = 0.5f;
     [SerializeField] float groundCheckDistance = 0.1f;
     float wallJumpLockTimer;
-    float jumpTimer;
     float wallStickTimer;
     // this variable reads and holds the initial gravity scale for restoration
     float defaultGravityScale;
@@ -42,7 +53,21 @@ public class PlayerController : MonoBehaviour
     bool touchingWallLeft;
     bool touchingWallRight;
     bool isGrounded;
-    
+
+    /* Metrics */
+
+    // jump metrics tracking — consumed by JumpMetricsLogger (or anything else) via the events above.
+    // Note: if you wall-jump before landing a grounded jump, tracking re-starts from the wall-jump
+    // push-off point and re-tags the flight as WallJump — combo jumps report as the most recent jump type.
+    bool isTrackingJump = false;
+    bool apexReachedThisJump = false;
+    JumpType currentJumpType;
+    Vector2 jumpStartPos;
+    float jumpStartTime;
+    float previousVelocityY;
+    float previousHeightDelta;
+    bool equalHeightRecorded;
+
     void Awake()
     {
         playerRb = GetComponent<Rigidbody2D>();
@@ -89,6 +114,11 @@ public class PlayerController : MonoBehaviour
         /* jump */
         Jump();
 
+        /* jump metrics: apex detection via velocity sign-change */
+        CheckApex();
+
+        /* jump metrics: horizontal distance at the moment player descends back through launch height */
+        CheckEqualHeightCrossing();
     }
 
     void CheckGround()
@@ -98,7 +128,17 @@ public class PlayerController : MonoBehaviour
         isGrounded = (leftHit.collider != null) || (rightHit.collider != null);
         if (isGrounded && playerStatus != PlayerStatus.WallJumping)
         {
+            // jump metrics: fire landing event once, exactly like the old hasjumped flag did
+            if (isTrackingJump)
+            {
+                Vector2 displacement = (Vector2)transform.position - jumpStartPos;
+                float airTime = Time.time - jumpStartTime;
+                OnLanded?.Invoke(displacement, airTime, currentJumpType);
+                isTrackingJump = false;
+            }
+
             playerStatus = PlayerStatus.Grounded;
+
         }
         // this else-if is a safety measure, but it only sets the status to Airborne so it's prone to bugs.
         else if (!isGrounded && playerStatus == PlayerStatus.Grounded)
@@ -112,9 +152,13 @@ public class PlayerController : MonoBehaviour
         RaycastHit2D leftHit = Physics2D.Raycast(wallCheckpointLeft.position, Vector2.left, wallCheckDistance, groundLayer);
         RaycastHit2D rightHit = Physics2D.Raycast(wallCheckpointRight.position, Vector2.right, wallCheckDistance, groundLayer);
 
-        touchingWallLeft = leftHit.collider != null && leftHit.collider.CompareTag("Wall");
-        touchingWallRight = rightHit.collider != null && rightHit.collider.CompareTag("Wall");
+        //touchingWallLeft = leftHit.collider != null && leftHit.collider.CompareTag("Wall");
+        //touchingWallRight = rightHit.collider != null && rightHit.collider.CompareTag("Wall");
+        touchingWallLeft = leftHit.collider != null;
+        touchingWallRight = rightHit.collider != null;
         bool touchingAnyWall = touchingWallLeft || touchingWallRight;
+
+        //bool touchingAnyWall = (leftHit.collider != null) || (rightHit.collider != null);
 
         // Never let WallJumping be interrupted by wall detection — that's the whole point of the lock
         if (playerStatus == PlayerStatus.WallJumping)
@@ -221,6 +265,9 @@ public class PlayerController : MonoBehaviour
             // jump for Grounded
             if (playerStatus == PlayerStatus.Grounded)
             {
+                //  ground jump metrics
+                StartJumpTracking(JumpType.Grounded);
+
                 playerRb.linearVelocityY = jumpSpeed;
                 playerStatus = PlayerStatus.Airborne;
             }
@@ -231,6 +278,9 @@ public class PlayerController : MonoBehaviour
                 playerRb.linearVelocity = new Vector2(dirX, wallJumpSpeedY);
                 playerStatus = PlayerStatus.WallJumping;
                 wallJumpLockTimer = wallJumpLockDuration;
+
+                // wall jump metrics
+                StartJumpTracking(JumpType.WallJump);
             }
 
         }
@@ -247,14 +297,56 @@ public class PlayerController : MonoBehaviour
         jumpRequested = false; // consume it either way, so stale presses don't fire late
     }
 
-    /* Old ground checking
-    void OnCollisionEnter2D(Collision2D collision)
+    // jump metrics: call this at the moment a jump/wall-jump is initiated
+    void StartJumpTracking(JumpType type)
     {
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            playerStatus = PlayerStatus.Grounded;
-        }
+        currentJumpType = type;
+        jumpStartPos = transform.position;
+        jumpStartTime = Time.time;
+        apexReachedThisJump = false;
+        isTrackingJump = true;
+        equalHeightRecorded = false;
+        previousHeightDelta = 0f; // delta is 0 at the exact instant of push-off
+        // seed previousVelocityY with the about-to-be-set velocity so CheckApex()
+        // doesn't false-trigger on the very first frame of the jump
+        previousVelocityY = playerRb.linearVelocityY;
+ 
+        OnJumpStart?.Invoke(type);
     }
-    */
+ 
+    // jump metrics: detects apex via a velocity sign-change (positive -> zero/negative),
+    // which is far more reliable than checking for linearVelocityY == 0f exactly.
+    void CheckApex()
+    {
+        if (isTrackingJump && !apexReachedThisJump && previousVelocityY > 0f && playerRb.linearVelocityY <= 0f)
+        {
+            apexReachedThisJump = true;
+            float apexHeight = transform.position.y - jumpStartPos.y;
+            float timeToApex = Time.time - jumpStartTime;
+            OnApexReached?.Invoke(apexHeight, timeToApex);
+        }
+        previousVelocityY = playerRb.linearVelocityY;
+    }
 
+    // jump metrics: fires once, when the player descends back through the height they launched from —
+    // this is independent of wherever the actual ground happens to be, so it's the number to compare
+    // against flat-terrain gap widths. Only checked after apex, since height-delta starts at exactly 0
+    // at push-off and would otherwise false-trigger immediately.
+    void CheckEqualHeightCrossing()
+    {
+        if (!isTrackingJump || !apexReachedThisJump || equalHeightRecorded)
+        {
+            return;
+        }
+ 
+        float currentHeightDelta = transform.position.y - jumpStartPos.y;
+        if (previousHeightDelta > 0f && currentHeightDelta <= 0f)
+        {
+            float horizontalDistance = transform.position.x - jumpStartPos.x;
+            float timeElapsed = Time.time - jumpStartTime;
+            OnReturnToLaunchHeight?.Invoke(horizontalDistance, timeElapsed);
+            equalHeightRecorded = true;
+        }
+        previousHeightDelta = currentHeightDelta;
+    }
 }
