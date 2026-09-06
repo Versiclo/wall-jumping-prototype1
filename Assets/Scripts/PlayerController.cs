@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
     public event Action<float, float> OnApexReached; // (apex height, time to apex)
     public event Action<Vector2, float, JumpType> OnLanded; // (displacement, airtime, jump type)
     public event Action<float, float> OnReturnToLaunchHeight; // (horizontal distance, time elapsed) — fires when descending back through the launch Y, independent of where the actual ground is
+    public event Action<Vector2, float> OnDied; // (position at death, time)
     // -------------------------------------------------------------------------
     
     // two transforms on right and left edges of the player that cast ray to check for walls
@@ -42,9 +43,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float airBorneForceRestriction = 0.6f;
     [SerializeField] float wallJumpLockDuration = 0.2f;
     [SerializeField] float wallCheckDistance = 0.2f;
-    [SerializeField] float wallStickDuration = 0.5f;
+    [SerializeField] float wallJumpCoyoteTime = 0.1f;
+    [SerializeField] float groundJumpCoyoteTime = 0.1f;
+    [SerializeField] float wallStickMaxDuration = 0.5f;
     [SerializeField] float groundCheckDistance = 0.1f;
     float wallJumpLockTimer;
+    float wallCoyoteTimer;
+    float groundCoyoteTimer;
     float wallStickTimer;
     // this variable reads and holds the initial gravity scale for restoration
     float defaultGravityScale;
@@ -53,6 +58,7 @@ public class PlayerController : MonoBehaviour
     bool touchingWallLeft;
     bool touchingWallRight;
     bool isGrounded;
+    bool lastWallSlideWasLeft;
 
     /* Metrics */
 
@@ -67,6 +73,9 @@ public class PlayerController : MonoBehaviour
     float previousVelocityY;
     float previousHeightDelta;
     bool equalHeightRecorded;
+
+    // restart position
+    [SerializeField] Vector3 restartPos = new Vector3(-13.5f, -3.5f, 0);
 
     void Awake()
     {
@@ -98,6 +107,7 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
+        GameOver();
         CheckGround();
         CheckWalls();
         Vector2 movementInput = controls.Player.Move.ReadValue<Vector2>();
@@ -121,6 +131,16 @@ public class PlayerController : MonoBehaviour
         CheckEqualHeightCrossing();
     }
 
+    void GameOver()
+    {
+        if (transform.position.y < -15f)
+        {
+            OnDied?.Invoke(transform.position, Time.time);
+            isTrackingJump = false;                           
+            transform.position = restartPos;
+        }
+    }
+
     void CheckGround()
     {
         RaycastHit2D leftHit = Physics2D.Raycast(groundCheckpointLeft.transform.position, Vector2.down, groundCheckDistance, groundLayer);
@@ -138,12 +158,17 @@ public class PlayerController : MonoBehaviour
             }
 
             playerStatus = PlayerStatus.Grounded;
+            groundCoyoteTimer = groundJumpCoyoteTime;
 
         }
         // this else-if is a safety measure, but it only sets the status to Airborne so it's prone to bugs.
-        else if (!isGrounded && playerStatus == PlayerStatus.Grounded)
+        else if (!isGrounded)
         {
-            playerStatus = PlayerStatus.Airborne;
+            groundCoyoteTimer -= Time.fixedDeltaTime;
+            if (playerStatus == PlayerStatus.Grounded)
+            {
+                playerStatus = PlayerStatus.Airborne;
+            }
         }
     }
 
@@ -151,31 +176,36 @@ public class PlayerController : MonoBehaviour
     {
         RaycastHit2D leftHit = Physics2D.Raycast(wallCheckpointLeft.position, Vector2.left, wallCheckDistance, groundLayer);
         RaycastHit2D rightHit = Physics2D.Raycast(wallCheckpointRight.position, Vector2.right, wallCheckDistance, groundLayer);
-
-        //touchingWallLeft = leftHit.collider != null && leftHit.collider.CompareTag("Wall");
-        //touchingWallRight = rightHit.collider != null && rightHit.collider.CompareTag("Wall");
+        
         touchingWallLeft = leftHit.collider != null;
         touchingWallRight = rightHit.collider != null;
         bool touchingAnyWall = touchingWallLeft || touchingWallRight;
 
-        //bool touchingAnyWall = (leftHit.collider != null) || (rightHit.collider != null);
+        // wall-jump coyote time: stay topped off while actively sliding, count down once
+        // contact is lost, so a jump press just after leaving the wall still registers.
+        if (playerStatus == PlayerStatus.WallSliding)
+        {
+            wallCoyoteTimer = wallJumpCoyoteTime;
+        }
+        else
+        {
+            wallCoyoteTimer -= Time.fixedDeltaTime;
+        }
 
         // Never let WallJumping be interrupted by wall detection — that's the whole point of the lock
         if (playerStatus == PlayerStatus.WallJumping)
         {
-            //Debug.Log("WallJumping");
             return;
         }
 
         if (touchingAnyWall && playerStatus == PlayerStatus.Airborne)
         {
             playerStatus = PlayerStatus.WallSliding;
-            //Debug.Log("WallSliding");
+            lastWallSlideWasLeft = touchingWallLeft;
         }
         else if (!touchingAnyWall && playerStatus == PlayerStatus.WallSliding)
         {
             playerStatus = PlayerStatus.Airborne;
-            //Debug.Log("Reset");
         }
     }
 
@@ -201,7 +231,14 @@ public class PlayerController : MonoBehaviour
     void WallStick(Vector2 movementInput)
     {
         // checking the requirements for wall sticking
+        /* using Player.Crouch for wall stick */
+        float stickInput = controls.Player.Crouch.ReadValue<float>();
+        bool pressingIntoWall = (touchingWallLeft && stickInput > 0f) || (touchingWallRight && stickInput > 0f);
+        
+        /* using wallPushing (Horizontal input) for wall stick 
         bool pressingIntoWall = (touchingWallLeft && movementInput.x < 0f) || (touchingWallRight && movementInput.x > 0f);
+        */
+
         bool isWallSticking = false;
         if (playerStatus == PlayerStatus.WallSliding)
         {
@@ -218,13 +255,13 @@ public class PlayerController : MonoBehaviour
             {
                 // reseting the timer every time the player is not sticking
                 // keep the potential exploit of unsticking and sticking to reset the timer
-                wallStickTimer = wallStickDuration;
+                wallStickTimer = wallStickMaxDuration;
             }
         }
         else
         {
             // always full when not actively WallSliding
-            wallStickTimer = wallStickDuration;
+            wallStickTimer = wallStickMaxDuration;
         }
         // set ySpeed and gravity to 0 when sticking
         if (isWallSticking)
@@ -259,11 +296,13 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        // player cannot jump while Airborne
-        if (jumpRequested && playerStatus != PlayerStatus.Airborne)
+        // player cannot jump while Airborne, unless within the coyote window
+        bool canWallJumpFromCoyote = playerStatus == PlayerStatus.Airborne && wallCoyoteTimer > 0f;
+        bool canGroundJumpFromCoyote = playerStatus == PlayerStatus.Airborne && groundCoyoteTimer > 0f;
+        if (jumpRequested && (playerStatus != PlayerStatus.Airborne || canWallJumpFromCoyote || canGroundJumpFromCoyote))
         {
             // jump for Grounded
-            if (playerStatus == PlayerStatus.Grounded)
+            if (playerStatus == PlayerStatus.Grounded || canGroundJumpFromCoyote)
             {
                 //  ground jump metrics
                 StartJumpTracking(JumpType.Grounded);
@@ -271,13 +310,14 @@ public class PlayerController : MonoBehaviour
                 playerRb.linearVelocityY = jumpSpeed;
                 playerStatus = PlayerStatus.Airborne;
             }
-            // wall jumping
-            else if (playerStatus == PlayerStatus.WallSliding)
+            // wall jumping — either still sliding, or within the coyote window after leaving the wall
+            else if (playerStatus == PlayerStatus.WallSliding || canWallJumpFromCoyote)
             {
-                float dirX = (touchingWallLeft) ? wallJumpSpeedX : -wallJumpSpeedX;
+                float dirX = lastWallSlideWasLeft ? wallJumpSpeedX : -wallJumpSpeedX;
                 playerRb.linearVelocity = new Vector2(dirX, wallJumpSpeedY);
                 playerStatus = PlayerStatus.WallJumping;
                 wallJumpLockTimer = wallJumpLockDuration;
+                wallCoyoteTimer = 0f; // consumed — no double-dipping before touching a wall again
 
                 // wall jump metrics
                 StartJumpTracking(JumpType.WallJump);
