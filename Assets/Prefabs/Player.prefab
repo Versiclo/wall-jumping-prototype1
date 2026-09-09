@@ -45,6 +45,7 @@ GameObject:
   - component: {fileID: 3664989113670423913}
   - component: {fileID: 3386552897670374628}
   - component: {fileID: 4142252570163274271}
+  - component: {fileID: 5310133361106654305}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -234,10 +235,13 @@ MonoBehaviour:
   wallJumpSpeedY: 28
   fallGravityMultiplier: 2.5
   airBorneForceRestriction: 0.6
-  wallJumpLockDuration: 0.2
+  wallJumpLockDuration: 0.1
   wallCheckDistance: 0.03
-  wallStickDuration: 1
+  wallJumpCoyoteTime: 0.1
+  groundJumpCoyoteTime: 0.06
+  wallStickMaxDuration: 0.5
   groundCheckDistance: 0.1
+  restartPos: {x: -13.5, y: -3.5, z: 0}
 --- !u!114 &4142252570163274271
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -256,6 +260,21 @@ MonoBehaviour:
   trailPointInterval: 0.02
   maxStoredTrails: 5
   trailPointRadius: 0.05
+--- !u!114 &5310133361106654305
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3208518347891506843}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2ecb6bb9d264a240bb98962a3dfb697, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlaytestRecorder
+  sessionLabel: 
+  sampleInterval: 0.04
+  flushIntervalSeconds: 5
 --- !u!1 &4179000021470624753
 GameObject:
   m_ObjectHideFlags: 0
