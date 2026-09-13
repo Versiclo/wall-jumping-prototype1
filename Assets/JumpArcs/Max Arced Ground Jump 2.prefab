@@ -1,0 +1,76 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2012941985568066257
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4184274573105469390}
+  - component: {fileID: 8424478642898553214}
+  m_Layer: 0
+  m_Name: Max Arced Ground Jump 2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4184274573105469390
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2012941985568066257}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 43.41501, y: 30.827856, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8424478642898553214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2012941985568066257}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca522a637fd953542b7573e95f5a774e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::JumpArcGhost
+  relativePoints:
+  - {x: 0, y: 0, z: 0}
+  - {x: -0.27999878, y: 0.55999947, z: 0}
+  - {x: -0.83999634, y: 1.5975933, z: 0}
+  - {x: -1.1199951, y: 2.0751896, z: 0}
+  - {x: -1.6799927, y: 2.947977, z: 0}
+  - {x: -1.9599915, y: 3.3431683, z: 0}
+  - {x: -2.1799927, y: 3.7108936, z: 0}
+  - {x: -2.619995, y: 4.3639355, z: 0}
+  - {x: -3.0599976, y: 4.9071064, z: 0}
+  - {x: -3.2799988, y: 5.137491, z: 0}
+  - {x: -3.7200012, y: 5.515856, z: 0}
+  - {x: -4.1600037, y: 5.7843494, z: 0}
+  - {x: -4.380005, y: 5.8773937, z: 0}
+  - {x: -4.8200073, y: 5.9429684, z: 0}
+  - {x: -5.26001, y: 5.8193607, z: 0}
+  - {x: -5.480011, y: 5.6545544, z: 0}
+  - {x: -5.9200134, y: 5.118929, z: 0}
+  - {x: -6.360016, y: 4.3086224, z: 0}
+  - {x: -6.580017, y: 3.8004665, z: 0}
+  - {x: -7.0200195, y: 2.5781422, z: 0}
+  - {x: -7.460022, y: 1.0811367, z: 0}
+  - {x: -7.680023, y: 0.22962952, z: 0}
+  - {x: -8.120026, y: -1.6793957, z: 0}
+  - {x: -8.560028, y: -3.8631, z: 0}
+  - {x: -8.780029, y: -5.0579567, z: 0}
+  - {x: -9.220032, y: -7.653681, z: 0}
+  - {x: -9.660034, y: -10.442894, z: 0}
+  arcColor: {r: 1, g: 0, b: 1, a: 1}
+  pointRadius: 0.05

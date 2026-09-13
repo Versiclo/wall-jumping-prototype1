@@ -1,0 +1,71 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5603026020067561180
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1113949510873818570}
+  - component: {fileID: 6866518531486179362}
+  m_Layer: 0
+  m_Name: Max Arced Ground Jump
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1113949510873818570
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5603026020067561180}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -97.39998, y: -3.9850001, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6866518531486179362
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5603026020067561180}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca522a637fd953542b7573e95f5a774e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::JumpArcGhost
+  relativePoints:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0.5200043, y: 1.1175954, z: 0}
+  - {x: 0.7400055, y: 1.6351912, z: 0}
+  - {x: 1.1800079, y: 2.5879788, z: 0}
+  - {x: 1.6200104, y: 3.4308946, z: 0}
+  - {x: 2.0600128, y: 4.1639385, z: 0}
+  - {x: 2.280014, y: 4.4892583, z: 0}
+  - {x: 2.7200165, y: 5.057494, z: 0}
+  - {x: 2.9400177, y: 5.3004103, z: 0}
+  - {x: 3.3800201, y: 5.7038383, z: 0}
+  - {x: 3.8200226, y: 5.9973946, z: 0}
+  - {x: 4.040024, y: 6.10297, z: 0}
+  - {x: 4.4800262, y: 6.2317185, z: 0}
+  - {x: 4.9200287, y: 6.250595, z: 0}
+  - {x: 5.14003, y: 6.177629, z: 0}
+  - {x: 5.5800323, y: 5.8256874, z: 0}
+  - {x: 6.020035, y: 5.199066, z: 0}
+  - {x: 6.460037, y: 4.297765, z: 0}
+  - {x: 6.6800385, y: 3.7441094, z: 0}
+  - {x: 7.120041, y: 2.4307885, z: 0}
+  - {x: 7.340042, y: 1.6711233, z: 0}
+  - {x: 7.7800446, y: -0.000039100647, z: 0}
+  arcColor: {r: 0, g: 1, b: 1, a: 1}
+  pointRadius: 0.05

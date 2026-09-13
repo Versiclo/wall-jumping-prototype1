@@ -1,5 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 // Drop this on the SAME GameObject as PlayerController.
 // It only listens to PlayerController's events — it never touches movement code,
@@ -135,5 +138,42 @@ public class JumpMetricsLogger : MonoBehaviour
         // small spheres mark the start (push-off) and end (landing) points
         Gizmos.DrawSphere(points[0], trailPointRadius);
         Gizmos.DrawSphere(points[points.Count - 1], trailPointRadius);
+    }
+    // Right-click this component's header in the Inspector and choose
+    // "Bake Last Jump Arc to Prefab" to save the most recently completed arc
+    // as a draggable, movable prefab in Assets/JumpArcs. Works during Play mode —
+    // the prefab persists after you stop.
+    [ContextMenu("Bake Last Jump Arc to Prefab")]
+    public void BakeLastArcToPrefab()
+    {
+#if UNITY_EDITOR
+        if (completedTrails.Count == 0)
+        {
+            Debug.LogWarning("No completed jump arcs recorded yet — do a jump first.");
+            return;
+        }
+
+        var (points, color) = completedTrails[completedTrails.Count - 1];
+        Vector3 origin = points[0];
+
+        GameObject ghostObj = new GameObject($"JumpArc_{currentJumpType}_{System.DateTime.Now:HHmmss}");
+        ghostObj.transform.position = origin;
+        JumpArcGhost ghost = ghostObj.AddComponent<JumpArcGhost>();
+        ghost.SetPoints(points, origin);
+        ghost.SetColor(color);
+
+        string folderPath = "Assets/JumpArcs";
+        if (!AssetDatabase.IsValidFolder(folderPath))
+        {
+            AssetDatabase.CreateFolder("Assets", "JumpArcs");
+        }
+        string prefabPath = $"{folderPath}/{ghostObj.name}.prefab";
+        PrefabUtility.SaveAsPrefabAsset(ghostObj, prefabPath);
+        DestroyImmediate(ghostObj);
+
+        Debug.Log($"Saved jump arc to {prefabPath} — drag it into the scene to position it.");
+#else
+        Debug.LogWarning("Baking jump arcs is an editor-only feature.");
+#endif
     }
 }
