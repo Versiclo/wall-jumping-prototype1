@@ -7395,7 +7395,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51710b6bceb831849bd568ce66a0b44e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlaytestRouteViewer
-  logFiles: []
+  logFiles:
+  - {fileID: 4900000, guid: 122054b6e1d30ba4687b7655912102dc, type: 3}
   deathMarkerSize: 0.3
   drawRoutes: 1
   drawDeaths: 1
