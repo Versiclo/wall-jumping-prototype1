@@ -46,6 +46,8 @@ GameObject:
   - component: {fileID: 3386552897670374628}
   - component: {fileID: 4142252570163274271}
   - component: {fileID: 5310133361106654305}
+  - component: {fileID: 1610735412299724344}
+  - component: {fileID: 4157856927542479556}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -98,7 +100,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: f40b1dfb7f17b3c4e9449d3d8a434927, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -117,12 +119,12 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 569635737
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 1, g: 0.2028302, b: 0.21079789, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -240,8 +242,8 @@ MonoBehaviour:
   wallJumpCoyoteTime: 0.1
   groundJumpCoyoteTime: 0.06
   wallStickMaxDuration: 0.5
+  corruptedGroundSpeedCap: 0.5
   groundCheckDistance: 0.1
-  restartPos: {x: -13.5, y: -3.5, z: 0}
 --- !u!114 &4142252570163274271
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -275,6 +277,42 @@ MonoBehaviour:
   sessionLabel: 
   sampleInterval: 0.04
   flushIntervalSeconds: 5
+  gameManager: {fileID: 0}
+--- !u!114 &1610735412299724344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3208518347891506843}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca522a637fd953542b7573e95f5a774e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::JumpArcGhost
+  relativePoints: []
+  arcColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  pointRadius: 0.05
+--- !u!114 &4157856927542479556
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3208518347891506843}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8767c9f53d4fe2a4ca3394c32103a95b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerBlightExposure
+  playerController: {fileID: 3386552897670374628}
+  playerSprite: {fileID: 4465920691222156215}
+  accumulationRate: 1
+  decayRate: 2.5
+  decayDelay: 1
+  maxExposure: 4
+  cleanColor: {r: 1, g: 0.20392157, b: 0.21176471, a: 1}
+  corruptedColor: {r: 0.3773585, g: 0.1783815, b: 0.13349947, a: 1}
 --- !u!1 &4179000021470624753
 GameObject:
   m_ObjectHideFlags: 0

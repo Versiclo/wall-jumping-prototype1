@@ -5,6 +5,8 @@ public class PauseMenu : MonoBehaviour
 {
     [SerializeField] GameObject pausePanel; // assign the pause UI panel in Inspector
     [SerializeField] string feedbackFormUrl = "https://forms.gle/YOUR_FORM_ID";
+    [SerializeField] Vector3 restartPos = new Vector3(-28f, -3.5f, 0);
+    [SerializeField] int firstZoneToReset = 0;
 
     InputSystem_Actions controls;
     bool isPaused = false;
@@ -42,6 +44,13 @@ public class PauseMenu : MonoBehaviour
     // Hook to Resume button OnClick
     public void OnResumePressed()
     {
+        TogglePause();
+    }
+
+    public void OnRestartPressed()
+    {
+        GameManager.Instance.SetCheckpoint(restartPos, firstZoneToReset);
+        GameManager.Instance.Die();
         TogglePause();
     }
 

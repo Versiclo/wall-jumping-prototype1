@@ -20,7 +20,8 @@ public class PlayerController : MonoBehaviour
     public event Action<float, float> OnApexReached; // (apex height, time to apex)
     public event Action<Vector2, float, JumpType> OnLanded; // (displacement, airtime, jump type)
     public event Action<float, float> OnReturnToLaunchHeight; // (horizontal distance, time elapsed) — fires when descending back through the launch Y, independent of where the actual ground is
-    public event Action<Vector2, float> OnDied; // (position at death, time)
+    //public event Action<Vector2, float> OnDied; // (position at death, time)
+    public event Action<bool, bool> OnCorruptionContact; // (groundCorrupted, wallCorrupted) — fires once/FixedUpdate, right after CheckGround/CheckWalls
     // -------------------------------------------------------------------------
     
     // two transforms on right and left edges of the player that cast ray to check for walls
@@ -46,6 +47,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float wallJumpCoyoteTime = 0.1f;
     [SerializeField] float groundJumpCoyoteTime = 0.1f;
     [SerializeField] float wallStickMaxDuration = 0.5f;
+    [SerializeField] float corruptedGroundSpeedCap = 0.5f; // near-zero, not literally zero
     [SerializeField] float groundCheckDistance = 0.1f;
     float wallJumpLockTimer;
     float wallCoyoteTimer;
@@ -59,6 +61,8 @@ public class PlayerController : MonoBehaviour
     bool touchingWallRight;
     bool isGrounded;
     bool lastWallSlideWasLeft;
+    bool isGroundCorrupted;
+    bool isWallCorrupted;
 
     /* Metrics */
 
@@ -75,7 +79,7 @@ public class PlayerController : MonoBehaviour
     bool equalHeightRecorded;
 
     // restart position
-    [SerializeField] Vector3 restartPos = new Vector3(-13.5f, -3.5f, 0);
+    //[SerializeField] Vector3 restartPos = new Vector3(-28f, -3.5f, 0);
 
     void Awake()
     {
@@ -86,6 +90,7 @@ public class PlayerController : MonoBehaviour
         groundCheckpointLeft = GetComponentInChildren<Transform>().Find("Ground Checkpoint Left");
         groundCheckpointRight = GetComponentInChildren<Transform>().Find("Ground Checkpoint Right");
         defaultGravityScale = playerRb.gravityScale;
+        GameManager.Instance.RegisterPlayer(this);
     }
 
     void OnEnable()
@@ -110,6 +115,7 @@ public class PlayerController : MonoBehaviour
         GameOver();
         CheckGround();
         CheckWalls();
+        OnCorruptionContact?.Invoke(isGroundCorrupted, isWallCorrupted);
         Vector2 movementInput = controls.Player.Move.ReadValue<Vector2>();
 
         /* move */
@@ -135,17 +141,22 @@ public class PlayerController : MonoBehaviour
     {
         if (transform.position.y < -15f)
         {
-            OnDied?.Invoke(transform.position, Time.time);
-            isTrackingJump = false;                           
-            transform.position = restartPos;
+            //Die();
+            GameManager.Instance.Die();
         }
+    }
+
+    public void RespawnAt(Vector2 position)
+    {
+        isTrackingJump = false;
+        transform.position = position;
     }
 
     void CheckGround()
     {
         RaycastHit2D leftHit = Physics2D.Raycast(groundCheckpointLeft.transform.position, Vector2.down, groundCheckDistance, groundLayer);
         RaycastHit2D rightHit = Physics2D.Raycast(groundCheckpointRight.transform.position, Vector2.down, groundCheckDistance, groundLayer);
-        isGrounded = (leftHit.collider != null) || (rightHit.collider != null);
+        isGrounded = (leftHit.collider != null) || (rightHit.collider != null);isGroundCorrupted = IsColliderCorrupted(leftHit.collider) || IsColliderCorrupted(rightHit.collider);
         if (isGrounded && playerStatus != PlayerStatus.WallJumping)
         {
             // jump metrics: fire landing event once, exactly like the old hasjumped flag did
@@ -180,6 +191,7 @@ public class PlayerController : MonoBehaviour
         touchingWallLeft = leftHit.collider != null;
         touchingWallRight = rightHit.collider != null;
         bool touchingAnyWall = touchingWallLeft || touchingWallRight;
+        isWallCorrupted = IsColliderCorrupted(leftHit.collider) || IsColliderCorrupted(rightHit.collider);
 
         // wall-jump coyote time: stay topped off while actively sliding, count down once
         // contact is lost, so a jump press just after leaving the wall still registers.
@@ -209,6 +221,13 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    bool IsColliderCorrupted(Collider2D col)
+    {
+        if (col == null) return false;
+        BlightCorruptible bc = col.GetComponent<BlightCorruptible>();
+        return bc != null && bc.IsCorrupted;
+    }
+    
     void Movement(Vector2 movementInput)
     {
         /* move */
@@ -224,7 +243,8 @@ public class PlayerController : MonoBehaviour
                 playerRb.linearVelocityX = Mathf.MoveTowards(playerRb.linearVelocityX, 0f, decel * Time.fixedDeltaTime);
             }
             // restrict linear velocity on x axis to maxRunSpeed
-            playerRb.linearVelocityX = Mathf.Clamp(playerRb.linearVelocityX, -maxRunSpeed, maxRunSpeed);
+            float effectiveMaxSpeed = (isGroundCorrupted && playerStatus == PlayerStatus.Grounded) ? corruptedGroundSpeedCap : maxRunSpeed;
+            playerRb.linearVelocityX = Mathf.Clamp(playerRb.linearVelocityX, -effectiveMaxSpeed, effectiveMaxSpeed);
         }
     }
 
@@ -244,7 +264,7 @@ public class PlayerController : MonoBehaviour
         {
             if (pressingIntoWall)
             {
-                if (wallStickTimer > 0f)
+                if (wallStickTimer > 0f && !isWallCorrupted)
                 {
                     wallStickTimer -= Time.fixedDeltaTime;
                     isWallSticking = true;

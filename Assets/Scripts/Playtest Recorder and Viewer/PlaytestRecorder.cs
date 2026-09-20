@@ -20,6 +20,9 @@ public class PlaytestRecorder : MonoBehaviour
     [SerializeField] float flushIntervalSeconds = 5f;  // how often the buffer is written to disk
 
     PlayerController player;
+
+    [SerializeField] GameManager gameManager; // needs to be assigned in-editor
+
     Vector3 lastSamplePos;
     int ticksPerSample;
     int tickCounter;
@@ -34,6 +37,7 @@ public class PlaytestRecorder : MonoBehaviour
     void Awake()
     {
         player = GetComponent<PlayerController>();
+        gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
         lastSamplePos = transform.position;
 
         // FixedUpdate is the sampling clock, so we can't sample finer than one physics tick.
@@ -57,10 +61,10 @@ public class PlaytestRecorder : MonoBehaviour
         filePath = Path.Combine(folder, $"playtest_{who}_{timestamp}.csv");
     }
 
-    void OnEnable() => player.OnDied += HandleDied;
+    void OnEnable() => gameManager.OnPlayerDied += HandleDied;
     void OnDisable()
     {
-        player.OnDied -= HandleDied;
+        gameManager.OnPlayerDied -= HandleDied;
         Flush();
     }
 
