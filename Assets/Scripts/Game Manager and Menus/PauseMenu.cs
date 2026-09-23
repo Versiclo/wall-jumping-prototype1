@@ -1,12 +1,11 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PauseMenu : MonoBehaviour
 {
     [SerializeField] GameObject pausePanel; // assign the pause UI panel in Inspector
     [SerializeField] string feedbackFormUrl = "https://forms.gle/YOUR_FORM_ID";
-    [SerializeField] Vector3 restartPos = new Vector3(-28f, -3.5f, 0);
-    [SerializeField] int firstZoneToReset = 0;
+    [SerializeField] Button restartBlightRunButton; // always visible; interactable only once GameManager.Instance.CleanRunCompleted
 
     InputSystem_Actions controls;
     bool isPaused = false;
@@ -39,6 +38,10 @@ public class PauseMenu : MonoBehaviour
         isPaused = !isPaused;
         pausePanel.SetActive(isPaused);
         Time.timeScale = isPaused ? 0f : 1f;
+        Cursor.visible = isPaused;
+        Cursor.lockState = isPaused ? CursorLockMode.None : CursorLockMode.Locked;
+
+        if (isPaused) restartBlightRunButton.interactable = GameManager.Instance.CleanRunCompleted;
     }
 
     // Hook to Resume button OnClick
@@ -47,11 +50,16 @@ public class PauseMenu : MonoBehaviour
         TogglePause();
     }
 
-    public void OnRestartPressed()
+    public void OnRestartCleanRunPressed()
     {
-        GameManager.Instance.SetCheckpoint(restartPos, firstZoneToReset);
-        GameManager.Instance.Die();
-        TogglePause();
+        GameManager.Instance.RestartCleanRun();
+        if (isPaused) TogglePause();
+    }
+
+    public void OnRestartBlightRunPressed()
+    {
+        GameManager.Instance.RestartBlightRun();
+        if (isPaused) TogglePause();
     }
 
     // Hook to Feedback button OnClick

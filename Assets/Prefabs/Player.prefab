@@ -239,7 +239,7 @@ MonoBehaviour:
   airBorneForceRestriction: 0.6
   wallJumpLockDuration: 0.1
   wallCheckDistance: 0.03
-  wallJumpCoyoteTime: 0.1
+  wallJumpCoyoteTime: 0.06
   groundJumpCoyoteTime: 0.06
   wallStickMaxDuration: 0.5
   corruptedGroundSpeedCap: 0.5
@@ -309,8 +309,8 @@ MonoBehaviour:
   playerSprite: {fileID: 4465920691222156215}
   accumulationRate: 1
   decayRate: 2.5
-  decayDelay: 1
-  maxExposure: 4
+  decayDelay: 1.2
+  maxExposure: 2.5
   cleanColor: {r: 1, g: 0.20392157, b: 0.21176471, a: 1}
   corruptedColor: {r: 0.3773585, g: 0.1783815, b: 0.13349947, a: 1}
 --- !u!1 &4179000021470624753

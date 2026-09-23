@@ -6,7 +6,9 @@ using UnityEngine;
 // imports it as a TextAsset automatically), then drag those TextAssets into "Log Files"
 // below — that's the entire multi-tester workflow. Each file gets its own hue so overlaid
 // testers stay distinguishable; brightness within that hue encodes speed (dim = slow/hesitant,
-// bright = fast/confident). Keep this off any GameObject in a shipped build.
+// bright = fast/confident). Per-run visibility is filtered via "Run Filters" — use the
+// "Refresh Run List" context menu after adding/removing logs or after a tester logs new runs.
+// Keep this off any GameObject in a shipped build.
 public class PlaytestRouteViewer : MonoBehaviour
 {
     [SerializeField] List<TextAsset> logFiles = new List<TextAsset>();
@@ -22,6 +24,13 @@ public class PlaytestRouteViewer : MonoBehaviour
     [SerializeField] float pauseMarkerRadiusPerSecond = 0.08f;
     [SerializeField] float pauseMarkerMaxRadius = 1.2f;
 
+    [Header("Blight exposure markers")]
+    [SerializeField] bool drawExposures = true;
+    [SerializeField] float exposureMarkerRadius = 0.15f;
+
+    [Header("Run filtering — populated by \"Refresh Run List\" context menu")]
+    [SerializeField] List<RunFilter> runFilters = new List<RunFilter>();
+
     // Hue identifies the tester (file). Each entry here is a (saturation, brightness) pair,
     // cycled by run number, so consecutive attempts by the same tester stay visually distinct.
     static readonly (float sat, float val)[] RunShades =
@@ -32,14 +41,26 @@ public class PlaytestRouteViewer : MonoBehaviour
     readonly Dictionary<TextAsset, ParsedLog> parseCache = new Dictionary<TextAsset, ParsedLog>();
 
     struct LogSample { public float x, y, speed; public int run; }
-    struct LogDeath { public float x, y; }
+    struct LogDeath { public float x, y; public int run; }
     struct PauseMarker { public float x, y, duration; public int run; }
+    struct ExposureMarker { public float x, y; public int run; }
+
+    [System.Serializable]
+    public class RunFilter
+    {
+        public TextAsset log;
+        public int run;
+        public bool blighted; // informational, set by Refresh — not hand-edited
+        public bool visible = true;
+    }
 
     class ParsedLog
     {
         public List<LogSample> samples = new List<LogSample>();
         public List<LogDeath> deaths = new List<LogDeath>();
         public List<PauseMarker> pauses = new List<PauseMarker>();
+        public List<ExposureMarker> exposures = new List<ExposureMarker>();
+        public HashSet<int> blightRuns = new HashSet<int>(); // runs where BlightManager.IsRunActive was true
     }
 
     void OnDrawGizmos()
@@ -58,6 +79,7 @@ public class PlaytestRouteViewer : MonoBehaviour
                     LogSample a = log.samples[s];
                     LogSample b = log.samples[s + 1];
                     if (a.run != b.run) continue; // don't draw a line across a death/respawn teleport
+                    if (!IsVisible(logFiles[i], a.run)) continue;
 
                     Gizmos.color = RunColor(hue, a.run);
                     Gizmos.DrawLine(new Vector3(a.x, a.y, 0f), new Vector3(b.x, b.y, 0f));
@@ -68,6 +90,7 @@ public class PlaytestRouteViewer : MonoBehaviour
             {
                 foreach (PauseMarker p in log.pauses)
                 {
+                    if (!IsVisible(logFiles[i], p.run)) continue;
                     Gizmos.color = RunColor(hue, p.run);
                     float radius = Mathf.Min(pauseMarkerMaxRadius, pauseMarkerBaseRadius + p.duration * pauseMarkerRadiusPerSecond);
                     Gizmos.DrawSphere(new Vector3(p.x, p.y, 0f), radius);
@@ -79,10 +102,54 @@ public class PlaytestRouteViewer : MonoBehaviour
                 Gizmos.color = Color.HSVToRGB(hue, 1f, 1f);
                 foreach (LogDeath d in log.deaths)
                 {
+                    if (!IsVisible(logFiles[i], d.run)) continue;
                     Gizmos.DrawWireCube(new Vector3(d.x, d.y, 0f), Vector3.one * deathMarkerSize);
                 }
             }
+
+            if (drawExposures)
+            {
+                float exposureHue = (hue + 0.5f) % 1f; // offset from this log's route hue, not a flat global color
+                foreach (ExposureMarker e in log.exposures)
+                {
+                    if (!IsVisible(logFiles[i], e.run)) continue;
+                    Gizmos.color = RunColor(exposureHue, e.run); // reuses the sat/val-per-run cycling too
+                    Gizmos.DrawWireSphere(new Vector3(e.x, e.y, 0f), exposureMarkerRadius);
+                }
+            }
         }
+    }
+
+    bool IsVisible(TextAsset asset, int run)
+    {
+        RunFilter f = runFilters.Find(rf => rf.log == asset && rf.run == run);
+        return f == null || f.visible; // unrefreshed runs default to visible
+    }
+
+    [ContextMenu("Refresh Run List")]
+    void RefreshRunList()
+    {
+        List<RunFilter> updated = new List<RunFilter>();
+        foreach (TextAsset asset in logFiles)
+        {
+            if (asset == null) continue;
+            ParsedLog log = GetParsed(asset);
+            HashSet<int> runsInLog = new HashSet<int>();
+            foreach (LogSample s in log.samples) runsInLog.Add(s.run);
+
+            foreach (int run in runsInLog)
+            {
+                RunFilter existing = runFilters.Find(rf => rf.log == asset && rf.run == run);
+                updated.Add(new RunFilter
+                {
+                    log = asset,
+                    run = run,
+                    blighted = log.blightRuns.Contains(run),
+                    visible = existing != null ? existing.visible : true
+                });
+            }
+        }
+        runFilters = updated;
     }
 
     Color RunColor(float hue, int run)
@@ -153,7 +220,15 @@ public class PlaytestRouteViewer : MonoBehaviour
             }
             else if (t[0] == "E" && t[1] == "DIED")
             {
-                log.deaths.Add(new LogDeath { x = ParseFloat(t[3]), y = ParseFloat(t[4]) });
+                log.deaths.Add(new LogDeath { x = ParseFloat(t[3]), y = ParseFloat(t[4]), run = ParseInt(t[6]) });
+            }
+            else if (t[0] == "E" && t[1] == "EXPOSURE")
+            {
+                log.exposures.Add(new ExposureMarker { x = ParseFloat(t[3]), y = ParseFloat(t[4]), run = ParseInt(t[6]) });
+            }
+            else if (t[0] == "E" && t[1] == "BLIGHTRUN")
+            {
+                log.blightRuns.Add(ParseInt(t[6]));
             }
         }
         if (inPause)

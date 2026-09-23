@@ -23,6 +23,7 @@ public class BlightManager : MonoBehaviour
     public int ActiveZoneIndex { get; private set; } = -1;
     public BlightZone ActiveZone => (ActiveZoneIndex >= 0 && ActiveZoneIndex < zones.Length) ? zones[ActiveZoneIndex] : null;
     public bool IsPaused { get; private set; }
+    public bool IsRunActive { get; private set; } = false; // closed by default — no zone activates until opened via GameManager or a BlightRunGateTrigger
 
     struct PendingStatic
     {
@@ -48,6 +49,7 @@ public class BlightManager : MonoBehaviour
     void FixedUpdate()
     {
         if (zones == null || zones.Length == 0) return;
+        if (!IsRunActive) return; // blocks zone-0 auto-start, advancement, and corruption processing entirely
 
         if (ActiveZoneIndex < 0)
         {
@@ -200,6 +202,8 @@ public class BlightManager : MonoBehaviour
 
     public void Pause() => IsPaused = true;
     public void Resume() => IsPaused = false;
+    public void OpenRunGate() => IsRunActive = true;
+    public void CloseRunGate() => IsRunActive = false; // doesn't reset already-progressed zones — pair with ResetFromZone(0) if that's ever needed
 
     // Called by GameManager on respawn. Every zone from firstZoneToReset onward is wiped to
     // Pending (un-corrupting anything it had claimed); zones before it are untouched, since
@@ -207,6 +211,7 @@ public class BlightManager : MonoBehaviour
     public void ResetFromZone(int firstZoneToReset)
     {
         if (zones == null || zones.Length == 0) return;
+        if (!IsRunActive) return; // a clean-run respawn shouldn't force a zone active — the gate stays the single authority
         firstZoneToReset = Mathf.Clamp(firstZoneToReset, 0, zones.Length - 1);
 
         if (overrideRoutine != null) { StopCoroutine(overrideRoutine); overrideRoutine = null; }
@@ -246,6 +251,7 @@ public class BlightManager : MonoBehaviour
     // doesn't chain into a zone skip even if it hits the cap. Use SetProgress for a full skip.
     public void Nudge(float delta)
     {
+        if (!IsRunActive) return;
         if (ActiveZoneIndex < 0 || ActiveZoneIndex >= zones.Length) return;
         BlightZone zone = zones[ActiveZoneIndex];
         zone.SetLeadingEdge(zone.LeadingEdge + delta);
@@ -256,6 +262,7 @@ public class BlightManager : MonoBehaviour
     // (even if never normally activated), so a level-select-style jump doesn't skip their statics.
     public void SetProgress(int zoneIndex, float fraction, float duration)
     {
+        if (!IsRunActive) return;
         if (zones == null || zones.Length == 0) return;
         if (overrideRoutine != null) StopCoroutine(overrideRoutine);
         overrideRoutine = StartCoroutine(SetProgressRoutine(Mathf.Clamp(zoneIndex, 0, zones.Length - 1), Mathf.Clamp01(fraction), duration));

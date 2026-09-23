@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 // Owns game-over/restart flow and the active checkpoint. A checkpoint pairs restartPos with
@@ -13,6 +14,13 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] Vector2 initialRestartPos;
     [SerializeField] int initialFirstZoneToReset = 0;
+    [SerializeField] Vector2 blightRunRestartPos;
+    [SerializeField] int blightRunFirstZoneToReset = 0;
+    [SerializeField] List<GameObject> cleanRunObjects;
+    [SerializeField] List<GameObject> blightRunObjects;
+
+    const string CleanRunCompletedKey = "CleanRunCompleted";
+    public bool CleanRunCompleted => PlayerPrefs.GetInt(CleanRunCompletedKey, 0) == 1;
 
     PlayerController player;
     PlayerBlightExposure playerBlightExposure;
@@ -24,6 +32,9 @@ public class GameManager : MonoBehaviour
         Instance = this;
         restartPos = initialRestartPos;
         firstZoneToReset = initialFirstZoneToReset;
+        SetRunObjectsActive(blightActive: false);
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     public void RegisterPlayer(PlayerController pc) => player = pc;
@@ -35,6 +46,39 @@ public class GameManager : MonoBehaviour
     {
         restartPos = position;
         firstZoneToReset = zoneIndex;
+    }
+
+    // Called once, unconditionally, when the player reaches the end of the clean run.
+    public void BeginBlightRun()
+    {
+        PlayerPrefs.SetInt(CleanRunCompletedKey, 1);
+        PlayerPrefs.Save();
+        RestartBlightRun();
+    }
+
+    // PauseMenu "Restart Clean Run" — full reset back to the clean-run start, gate closed.
+    public void RestartCleanRun()
+    {
+        SetRunObjectsActive(blightActive: false);
+        SetCheckpoint(initialRestartPos, initialFirstZoneToReset);
+        Die();
+        BlightManager.Instance.CloseRunGate();
+    }
+
+    // PauseMenu "Restart Blight Run" — full reset back to the blight-run start, gate open.
+    // Also the tail end of BeginBlightRun().
+    public void RestartBlightRun()
+    {
+        BlightManager.Instance.OpenRunGate();
+        SetRunObjectsActive(blightActive: true);
+        SetCheckpoint(blightRunRestartPos, blightRunFirstZoneToReset);
+        Die();
+    }
+
+    void SetRunObjectsActive(bool blightActive)
+    {
+        foreach (var go in cleanRunObjects) go.SetActive(!blightActive);
+        foreach (var go in blightRunObjects) go.SetActive(blightActive);
     }
 
     // public so other systems (blight exposure, future hazards) can trigger the same death path

@@ -8,7 +8,9 @@ using UnityEngine;
 // Samples position on a fixed interval and logs deaths, so a returned log file can be
 // redrawn later as a route (see PlaytestRouteViewer). Reads nothing from PlayerController
 // except the OnDied event and the Transform — same "never touches movement code" boundary
-// JumpMetricsLogger already uses.
+// JumpMetricsLogger already uses. Blight state is read the same way: BlightManager.IsRunActive
+// (polled once per run) and PlayerBlightExposure.OnBlightContact (subscribed event), never
+// internal Blight fields.
 [RequireComponent(typeof(PlayerController))]
 public class PlaytestRecorder : MonoBehaviour
 {
@@ -20,6 +22,7 @@ public class PlaytestRecorder : MonoBehaviour
     [SerializeField] float flushIntervalSeconds = 5f;  // how often the buffer is written to disk
 
     PlayerController player;
+    PlayerBlightExposure blightExposure; // optional — if absent, exposure tagging is just skipped
 
     [SerializeField] GameManager gameManager; // needs to be assigned in-editor
 
@@ -32,11 +35,13 @@ public class PlaytestRecorder : MonoBehaviour
     bool headerWritten;
     int currentRun;            // increments on every death — lets the viewer avoid drawing
     bool resyncNextSample;     // a line across the teleport back to restartPos
+    bool runTypeLogged;        // whether this run's BlightManager.IsRunActive state has been written yet
     readonly List<string> buffer = new List<string>();
 
     void Awake()
     {
         player = GetComponent<PlayerController>();
+        blightExposure = GetComponent<PlayerBlightExposure>();
         gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
         lastSamplePos = transform.position;
 
@@ -61,10 +66,16 @@ public class PlaytestRecorder : MonoBehaviour
         filePath = Path.Combine(folder, $"playtest_{who}_{timestamp}.csv");
     }
 
-    void OnEnable() => gameManager.OnPlayerDied += HandleDied;
+    void OnEnable()
+    {
+        gameManager.OnPlayerDied += HandleDied;
+        if (blightExposure != null) blightExposure.OnBlightContact += HandleBlightContact;
+    }
+
     void OnDisable()
     {
         gameManager.OnPlayerDied -= HandleDied;
+        if (blightExposure != null) blightExposure.OnBlightContact -= HandleBlightContact;
         Flush();
     }
 
@@ -73,7 +84,14 @@ public class PlaytestRecorder : MonoBehaviour
         WriteHeaderIfNeeded();
         buffer.Add(FormatRow("E", "DIED", time, position.x, position.y, 0f, currentRun));
         currentRun++;
+        runTypeLogged = false; // next run's IsRunActive state hasn't been recorded yet
         resyncNextSample = true; // next sample is post-teleport; don't measure "speed" across that jump
+    }
+
+    void HandleBlightContact()
+    {
+        WriteHeaderIfNeeded();
+        buffer.Add(FormatRow("E", "EXPOSURE", Time.time, transform.position.x, transform.position.y, 0f, currentRun));
     }
 
     void FixedUpdate()
@@ -91,7 +109,17 @@ public class PlaytestRecorder : MonoBehaviour
             WriteHeaderIfNeeded();
             buffer.Add(FormatRow("S", "", Time.time, transform.position.x, transform.position.y, speed, currentRun));
         }
-        
+
+        if (!runTypeLogged && BlightManager.Instance != null)
+        {
+            runTypeLogged = true;
+            if (BlightManager.Instance.IsRunActive)
+            {
+                WriteHeaderIfNeeded();
+                buffer.Add(FormatRow("E", "BLIGHTRUN", Time.time, transform.position.x, transform.position.y, 0f, currentRun));
+            }
+        }
+
         flushTimer += Time.fixedDeltaTime;
         if (flushTimer >= flushIntervalSeconds)
         {
@@ -109,6 +137,8 @@ public class PlaytestRecorder : MonoBehaviour
 
     // Row shape is always: kind,eventType,time,x,y,speed,run
     // eventType is blank for "S" (sample) rows; speed is unused (0) for "E" (event) rows.
+    // eventType values: DIED (death), EXPOSURE (blight contact, may repeat within a run),
+    // BLIGHTRUN (written once per run iff BlightManager.IsRunActive was true).
     string FormatRow(string kind, string eventType, float time, float x, float y, float speed, int run)
     {
         return string.Join(",", new[]

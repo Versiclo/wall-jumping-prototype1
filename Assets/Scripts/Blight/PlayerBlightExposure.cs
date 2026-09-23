@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 // Sibling component to PlayerController, same pattern as JumpMetricsLogger/PlaytestRecorder —
@@ -8,6 +9,10 @@ public class PlayerBlightExposure : MonoBehaviour
 {
     [SerializeField] PlayerController playerController;
     [SerializeField] SpriteRenderer playerSprite;
+    
+    // Playtest log variables
+    public event Action OnBlightContact; // fires once per rising edge — entering exposure, not every tick while exposed
+    bool wasTouchingCorruption;
 
     [Header("Tuning — rough guesses from the clean-run log, refine per chunk via playtest")]
     [SerializeField] float accumulationRate = 1f; // exposure/sec while touching corrupted ground or wall
@@ -59,6 +64,13 @@ public class PlayerBlightExposure : MonoBehaviour
     void HandleCorruptionContact(bool groundCorrupted, bool wallCorrupted)
     {
         bool touchingCorruption = groundCorrupted || wallCorrupted;
+
+        
+        if (touchingCorruption && !wasTouchingCorruption)
+        {
+            OnBlightContact?.Invoke();
+        }
+        wasTouchingCorruption = touchingCorruption;
 
         if (touchingCorruption)
         {
