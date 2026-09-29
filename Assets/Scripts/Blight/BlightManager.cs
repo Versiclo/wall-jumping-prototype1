@@ -264,6 +264,17 @@ public class BlightManager : MonoBehaviour
     {
         if (!IsRunActive) return;
         if (zones == null || zones.Length == 0) return;
+
+        int target = Mathf.Clamp(zoneIndex, 0, zones.Length - 1);
+
+        // Rewinding past zones that already auto-resolved (sweep ran ahead while paused
+        // trigger wasn't in place yet) — undo them the same way ResetFromZone does,
+        // or they stay corrupted forever while ActiveZoneIndex jumps back behind them.
+        for (int i = target; i < zones.Length; i++)
+        {
+            if (zones[i].CurrentState != BlightZone.State.Pending) ResetZone(i);
+        }
+        
         if (overrideRoutine != null) StopCoroutine(overrideRoutine);
         overrideRoutine = StartCoroutine(SetProgressRoutine(Mathf.Clamp(zoneIndex, 0, zones.Length - 1), Mathf.Clamp01(fraction), duration));
     }

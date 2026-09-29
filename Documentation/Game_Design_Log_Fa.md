@@ -1,5 +1,7 @@
 # Restless Square: Design Devlog
 
+[English](Game_Design_Log.md)
+
 یک precision platformer prototype که به‌صورت solo ساخته شده (Unity 6.5، URP) و درباره‌ی حرکت سریع و مبتنی بر momentum در برابر یک mechanic به نام **Blight** است؛ یک corruption که در طول level پخش می‌شود. سؤالی که این prototype بررسی می‌کند: **آیا می‌توانی تحت فشار execute کنی؟**
 
 - ‏**آنچه ساخته شده:** سیستم movement، Blight، checkpointها، یک level با ساختار vertical tower، و ابزارهای تحلیل playtest.
@@ -28,7 +30,7 @@
 
 ## Blight: فشاری که می‌توانی آن را بخوانی
 
-  
+![Fast movement with Blight tailing behind, ending in a hesitation and failure](Cover.gif)  
 
 یک front تاریک در طول level پیش می‌رود. platformهایی که از آن عبور می‌کند corrupted می‌شوند: wallهای corrupted زمان stick خود را از دست می‌دهند و groundِ corrupted سرعت بازیکن را به دو سوم مقدار عادی محدود می‌کند؛ بنابراین تنها راه خروج، jump کردن است. مکث کنی، می‌میری.
 

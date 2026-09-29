@@ -24,7 +24,7 @@ MonoBehaviour:
   m_Scenes:
   - m_enabled: 1
     m_path: Assets/Scenes/Test Level Scene Blighted.unity
-    m_guid: 04707d85fb4559047b649914220dc813
+    m_guid: 711ea0f10aa5d7647b4083edee107880
   m_HasScriptingDefines: 0
   m_ScriptingDefines: []
   m_PlayerSettingsYaml:

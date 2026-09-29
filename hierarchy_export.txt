@@ -1,107 +1,216 @@
-Main Camera [Transform, Camera, AudioListener, UniversalAdditionalCameraData, CameraMovement]
-Background Camera [Transform, Camera, AudioListener, UniversalAdditionalCameraData]
-Player [Transform, SpriteRenderer, Rigidbody2D, BoxCollider2D, PlayerController, JumpMetricsLogger, PlaytestRecorder, JumpArcGhost]
-  Wall Checkpoint Right [Transform]
-  Wall Checkpoint Left [Transform]
-  Ground Checkpoint Left [Transform]
-  Ground Checkpoint Right [Transform]
-Level Layout [Transform]
-  Square [Transform, SpriteRenderer, BoxCollider2D]
-  Square (1) [Transform, SpriteRenderer, BoxCollider2D]
-  Square (2) [Transform, SpriteRenderer, BoxCollider2D]
-  Square (3) [Transform, SpriteRenderer, BoxCollider2D]
-  Square (4) [Transform, SpriteRenderer, BoxCollider2D]
-  Square (5) [Transform, SpriteRenderer, BoxCollider2D]
-  Square (6) [Transform, SpriteRenderer, BoxCollider2D]
-  Square (8) [Transform, SpriteRenderer, BoxCollider2D]
-  Square (9) [Transform, SpriteRenderer, BoxCollider2D]
-  Square (10) [Transform, SpriteRenderer, BoxCollider2D]
-  Square (11) [Transform, SpriteRenderer, BoxCollider2D]
-  Square (12) [Transform, SpriteRenderer, BoxCollider2D]
-  Square (13) [Transform, SpriteRenderer, BoxCollider2D]
-  Square (15) [Transform, SpriteRenderer, BoxCollider2D]
-  Square (14) [Transform, SpriteRenderer, BoxCollider2D]
-  Square (24) [Transform, SpriteRenderer, BoxCollider2D]
-  Square (53) [Transform, SpriteRenderer, BoxCollider2D]
-  Square (36) [Transform, SpriteRenderer, BoxCollider2D]
-  Square (25) [Transform, SpriteRenderer, BoxCollider2D]
-  Square (26) [Transform, SpriteRenderer, BoxCollider2D]
-  Square (27) [Transform, SpriteRenderer, BoxCollider2D]
-  Square (28) [Transform, SpriteRenderer, BoxCollider2D]
-  Square (16) [Transform, SpriteRenderer, BoxCollider2D]
-  Square (17) [Transform, SpriteRenderer, BoxCollider2D]
-  Square (18) [Transform, SpriteRenderer, BoxCollider2D]
-  Square (19) [Transform, SpriteRenderer, BoxCollider2D]
-  Square (20) [Transform, SpriteRenderer, BoxCollider2D]
-  Square (22) [Transform, SpriteRenderer, BoxCollider2D]
-  Square (23) [Transform, SpriteRenderer, BoxCollider2D]
-  Square (29) [Transform, SpriteRenderer, BoxCollider2D]
-  Square (30) [Transform, SpriteRenderer, BoxCollider2D]
-  Square (31) [Transform, SpriteRenderer, BoxCollider2D]
-  Square (34) [Transform, SpriteRenderer, BoxCollider2D]
-  Square (35) [Transform, SpriteRenderer, BoxCollider2D]
-  Square (37) [Transform, SpriteRenderer, BoxCollider2D]
-  Square (39) [Transform, SpriteRenderer, BoxCollider2D]
-  Square (40) [Transform, SpriteRenderer, BoxCollider2D]
-  Square (41) [Transform, SpriteRenderer, BoxCollider2D]
-  Square (42) [Transform, SpriteRenderer, BoxCollider2D]
-  Square (43) [Transform, SpriteRenderer, BoxCollider2D]
-  Square (44) [Transform, SpriteRenderer, BoxCollider2D]
-  Square (45) [Transform, SpriteRenderer, BoxCollider2D]
-  Square (46) [Transform, SpriteRenderer, BoxCollider2D]
-  Square (47) [Transform, SpriteRenderer, BoxCollider2D]
-  Square (48) [Transform, SpriteRenderer, BoxCollider2D]
-  Square (49) [Transform, SpriteRenderer, BoxCollider2D]
-  Square (50) [Transform, SpriteRenderer, BoxCollider2D]
-  Square (51) [Transform, SpriteRenderer, BoxCollider2D]
-  Square (52) [Transform, SpriteRenderer, BoxCollider2D]
-  Square (38) [Transform, SpriteRenderer, BoxCollider2D]
-  Square (32) [Transform, SpriteRenderer, BoxCollider2D]
-  Square (33) [Transform, SpriteRenderer, BoxCollider2D]
-  Finish [Transform]
-    Finish Platform [Transform, SpriteRenderer, BoxCollider2D]
-    Finish Texts [Transform]
-      Win [RectTransform, MeshRenderer, TextMeshPro, MeshFilter]
-      Feedback Text [RectTransform, MeshRenderer, TextMeshPro, MeshFilter]
-      Die To Retry [RectTransform, MeshRenderer, TextMeshPro, MeshFilter]
-        TMP SubMesh [LiberationSans SDF Material + LiberationSans SDF Atlas] [Transform, MeshRenderer, TMP_SubMesh, MeshFilter]
-  Easter Platforms [Transform]
-    Cool Text [RectTransform, MeshRenderer, TextMeshPro]
-Tutorial [Transform]
-  Square (22) [Transform, SpriteRenderer, BoxCollider2D]
-  Square (23) [Transform, SpriteRenderer, BoxCollider2D]
-  Square (27) [Transform, SpriteRenderer, BoxCollider2D]
-  Square (28) [Transform, SpriteRenderer, BoxCollider2D]
-  Square (25) [Transform, SpriteRenderer, BoxCollider2D]
-  Square (26) [Transform, SpriteRenderer, BoxCollider2D]
-  Square (24) [Transform, SpriteRenderer, BoxCollider2D]
-  Text1 [RectTransform, MeshRenderer, TextMeshPro, MeshFilter]
-    TMP SubMesh [LiberationSans SDF Material + LiberationSans SDF Atlas] [Transform, MeshRenderer, TMP_SubMesh, MeshFilter]
-  Text5 [RectTransform, MeshRenderer, TextMeshPro, MeshFilter]
-  Text2 [RectTransform, MeshRenderer, TextMeshPro, MeshFilter]
-  Text3 [RectTransform, MeshRenderer, TextMeshPro, MeshFilter]
-  Text4 [RectTransform, MeshRenderer, TextMeshPro, MeshFilter]
-Up Guide [RectTransform, MeshRenderer, TextMeshPro, MeshFilter]
-  TMP SubMesh [LiberationSans SDF Material + LiberationSans SDF Atlas] [Transform, MeshRenderer, TMP_SubMesh, MeshFilter]
-Up Guide (1) [RectTransform, MeshRenderer, TextMeshPro, MeshFilter]
-  TMP SubMesh [LiberationSans SDF Material + LiberationSans SDF Atlas] [Transform, MeshRenderer, TMP_SubMesh, MeshFilter]
-Up Guide (2) [RectTransform, MeshRenderer, TextMeshPro, MeshFilter]
-  TMP SubMesh [LiberationSans SDF Material + LiberationSans SDF Atlas] [Transform, MeshRenderer, TMP_SubMesh, MeshFilter]
-Right Guide [RectTransform, MeshRenderer, TextMeshPro, MeshFilter]
-  TMP SubMesh [LiberationSans SDF Material + LiberationSans SDF Atlas] [Transform, MeshRenderer, TMP_SubMesh, MeshFilter]
-Left Guide [RectTransform, MeshRenderer, TextMeshPro, MeshFilter]
-  TMP SubMesh [LiberationSans SDF Material + LiberationSans SDF Atlas] [Transform, MeshRenderer, TMP_SubMesh, MeshFilter]
-Down Guide [RectTransform, MeshRenderer, TextMeshPro, MeshFilter]
-  TMP SubMesh [LiberationSans SDF Material + LiberationSans SDF Atlas] [Transform, MeshRenderer, TMP_SubMesh, MeshFilter]
-Route Draw [Transform, PlaytestRouteViewer]
-Game Manager [Transform, GameManager, PauseMenu]
-Canvas [RectTransform, Canvas, CanvasScaler, GraphicRaycaster]
-  Pause Panel [RectTransform, CanvasRenderer, Image]
-    Paused Text [RectTransform, CanvasRenderer, TextMeshProUGUI]
-    Resume Button [RectTransform, CanvasRenderer, Image, Button]
-      Text (TMP) [RectTransform, CanvasRenderer, TextMeshProUGUI]
-    Send Feedback Button [RectTransform, CanvasRenderer, Image, Button]
-      Text (TMP) [RectTransform, CanvasRenderer, TextMeshProUGUI]
-    Exit Button [RectTransform, CanvasRenderer, Image, Button]
-      Text (TMP) [RectTransform, CanvasRenderer, TextMeshProUGUI]
-EventSystem [Transform, EventSystem, InputSystemUIInputModule]
+Main Camera [Transform, Camera, AudioListener, UniversalAdditionalCameraData, CameraMovement] pos=(8.50, 3.50, -10.00) scale=(1.00, 1.00, 1.00)
+Background Camera [Transform, Camera, AudioListener, UniversalAdditionalCameraData] pos=(0.00, 0.00, -10.00) scale=(1.00, 1.00, 1.00)
+Player [Transform, SpriteRenderer, Rigidbody2D, BoxCollider2D, PlayerController, JumpMetricsLogger, PlaytestRecorder, JumpArcGhost, PlayerBlightExposure] pos=(-123.40, 9.40, 0.00) scale=(1.00, 1.00, 1.00) bounds=(min:(-123.90,8.90), max:(-122.90,9.90))
+  Wall Checkpoint Right [Transform] pos=(-122.90, 9.40, 0.00) scale=(1.00, 1.00, 1.00)
+  Wall Checkpoint Left [Transform] pos=(-123.90, 9.40, 0.00) scale=(1.00, 1.00, 1.00)
+  Ground Checkpoint Left [Transform] pos=(-123.90, 8.90, 0.00) scale=(1.00, 1.00, 1.00)
+  Ground Checkpoint Right [Transform] pos=(-122.90, 8.90, 0.00) scale=(1.00, 1.00, 1.00)
+Level Layout [Transform] pos=(0.00, 0.00, 0.00) scale=(1.00, 1.00, 1.00)
+  Square [Transform, SpriteRenderer, BoxCollider2D, BlightCorruptible] pos=(-11.21, -5.00, 0.00) scale=(6.71, 1.00, 1.00) bounds=(min:(-14.56,-5.50), max:(-7.85,-4.50))
+  Square (1) [Transform, SpriteRenderer, BoxCollider2D, BlightCorruptible] pos=(-5.67, -1.56, 0.00) scale=(4.12, 1.00, 1.00) bounds=(min:(-7.73,-2.06), max:(-3.61,-1.06))
+  Square (2) [Transform, SpriteRenderer, BoxCollider2D, BlightCorruptible] pos=(-0.46, 1.21, 0.00) scale=(2.94, 1.00, 1.00) bounds=(min:(-1.93,0.71), max:(1.01,1.71))
+  Square (3) [Transform, SpriteRenderer, BoxCollider2D, BlightCorruptible] pos=(7.35, 4.65, 0.00) scale=(2.94, 1.00, 1.00) bounds=(min:(5.88,4.15), max:(8.82,5.15))
+  Square (4) [Transform, SpriteRenderer, BoxCollider2D, BlightCorruptible] pos=(15.79, 7.04, 0.00) scale=(2.22, 1.00, 1.00) bounds=(min:(14.68,6.54), max:(16.90,7.54))
+  Square (5) [Transform, SpriteRenderer, BoxCollider2D, BlightCorruptible] pos=(21.54, 3.47, 0.00) scale=(2.22, 1.00, 1.00) bounds=(min:(20.43,2.97), max:(22.65,3.97))
+  Square (6) [Transform, SpriteRenderer, BoxCollider2D, BlightCorruptible] pos=(28.44, 10.85, 0.00) scale=(1.00, 16.04, 1.00) bounds=(min:(27.94,2.83), max:(28.94,18.88))
+  Square (8) [Transform, SpriteRenderer, BoxCollider2D, BlightCorruptible] pos=(32.93, 19.37, 0.00) scale=(9.98, 1.00, 1.00) bounds=(min:(27.94,18.87), max:(37.92,19.87))
+  Square (9) [Transform, SpriteRenderer, BoxCollider2D, BlightCorruptible] pos=(44.43, 24.97, 0.00) scale=(1.00, 25.07, 1.00) bounds=(min:(43.93,12.44), max:(44.93,37.51))
+  Square (10) [Transform, SpriteRenderer, BoxCollider2D, BlightCorruptible] pos=(39.81, 11.95, 0.00) scale=(10.24, 1.00, 1.00) bounds=(min:(34.69,11.45), max:(44.93,12.45))
+  Square (11) [Transform, SpriteRenderer, BoxCollider2D, BlightCorruptible] pos=(29.89, 2.35, 0.00) scale=(3.90, 1.00, 1.00) bounds=(min:(27.94,1.85), max:(31.84,2.85))
+  Square (12) [Transform, SpriteRenderer, BoxCollider2D, BlightCorruptible] pos=(41.47, 1.31, 0.00) scale=(4.23, 1.00, 1.00) bounds=(min:(39.36,0.81), max:(43.59,1.81))
+  Square (13) [Transform, SpriteRenderer, BoxCollider2D, BlightCorruptible] pos=(50.76, 9.70, 0.00) scale=(1.00, 8.05, 1.00) bounds=(min:(50.26,5.67), max:(51.26,13.72))
+  Square (15) [Transform, SpriteRenderer, BoxCollider2D, BlightCorruptible] pos=(54.45, 20.29, 0.00) scale=(8.05, 1.00, 1.00) bounds=(min:(50.43,19.79), max:(58.48,20.79))
+  Square (14) [Transform, SpriteRenderer, BoxCollider2D, BlightCorruptible] pos=(36.05, 37.79, 0.00) scale=(28.87, 1.00, 1.00) bounds=(min:(21.61,37.29), max:(50.48,38.29))
+  Square (24) [Transform, SpriteRenderer, BoxCollider2D, BlightCorruptible] pos=(17.53, 41.08, 0.00) scale=(6.81, 1.00, 1.00) bounds=(min:(14.12,40.58), max:(20.94,41.58))
+  Square (53) [Transform, SpriteRenderer, BoxCollider2D, BlightCorruptible] pos=(0.95, 33.10, 0.00) scale=(27.06, 1.00, 1.00) bounds=(min:(-12.58,32.60), max:(14.48,33.60))
+  Square (36) [Transform, SpriteRenderer, BoxCollider2D, BlightCorruptible] pos=(14.61, 36.66, 0.00) scale=(1.00, 8.34, 1.00) bounds=(min:(14.11,32.49), max:(15.11,40.83))
+  Square (25) [Transform, SpriteRenderer, BoxCollider2D, BlightCorruptible] pos=(6.54, 41.76, 0.00) scale=(1.00, 1.00, 1.00) bounds=(min:(6.04,41.26), max:(7.04,42.26))
+  Square (26) [Transform, SpriteRenderer, BoxCollider2D, BlightCorruptible] pos=(-2.60, 42.45, 0.00) scale=(1.00, 1.00, 1.00) bounds=(min:(-3.10,41.95), max:(-2.10,42.95))
+  Square (27) [Transform, SpriteRenderer, BoxCollider2D, BlightCorruptible] pos=(-15.48, 43.44, 0.00) scale=(7.80, 1.00, 1.00) bounds=(min:(-19.38,42.94), max:(-11.58,43.94))
+  Square (28) [Transform, SpriteRenderer, BoxCollider2D, BlightCorruptible] pos=(56.20, 42.20, 0.00) scale=(1.00, 1.00, 1.00) bounds=(min:(55.70,41.70), max:(56.70,42.70))
+  Square (16) [Transform, SpriteRenderer, BoxCollider2D, BlightCorruptible] pos=(67.05, 28.35, 0.00) scale=(1.00, 11.83, 1.00) bounds=(min:(66.55,22.43), max:(67.55,34.27))
+  Square (21) [Transform, SpriteRenderer, BoxCollider2D, BlightCorruptible] pos=(70.65, 33.60, 0.00) scale=(6.76, 1.00, 1.00) bounds=(min:(67.27,33.10), max:(74.03,34.10))
+  Square (17) [Transform, SpriteRenderer, BoxCollider2D, BlightCorruptible] pos=(82.40, 25.85, 0.00) scale=(1.00, 34.12, 1.00) bounds=(min:(81.90,8.79), max:(82.90,42.91))
+  Square (18) [Transform, SpriteRenderer, BoxCollider2D, BlightCorruptible] pos=(68.96, 42.39, 0.00) scale=(11.87, 1.00, 1.00) bounds=(min:(63.03,41.89), max:(74.90,42.89))
+  Square (19) [Transform, SpriteRenderer, BoxCollider2D, BlightCorruptible] pos=(82.50, 5.24, 0.00) scale=(11.22, 1.00, 1.00) bounds=(min:(76.89,4.74), max:(88.11,5.74))
+  Square (20) [Transform, SpriteRenderer, BoxCollider2D, BlightCorruptible] pos=(87.80, 28.99, 0.00) scale=(1.00, 47.98, 1.00) bounds=(min:(87.30,5.00), max:(88.30,52.98))
+  Square (22) [Transform, SpriteRenderer, BoxCollider2D, BlightCorruptible] pos=(-13.12, 67.23, 0.00) scale=(1.02, 1.00, 1.00) bounds=(min:(-13.63,66.73), max:(-12.61,67.73))
+  Square (23) [Transform, SpriteRenderer, BoxCollider2D, BlightCorruptible] pos=(-19.00, 53.32, 0.00) scale=(1.00, 19.63, 1.00) bounds=(min:(-19.50,43.50), max:(-18.50,63.13))
+  Square (29) [Transform, SpriteRenderer, BoxCollider2D, BlightCorruptible] pos=(-19.00, 75.60, 0.00) scale=(1.00, 8.21, 1.00) bounds=(min:(-19.50,71.50), max:(-18.50,79.70))
+  Square (30) [Transform, SpriteRenderer, BoxCollider2D, BlightCorruptible] pos=(-7.03, 80.80, 0.00) scale=(12.47, 1.00, 1.00) bounds=(min:(-13.27,80.30), max:(-0.80,81.30))
+  Square (31) [Transform, SpriteRenderer, BoxCollider2D, BlightCorruptible] pos=(5.40, 85.21, 0.00) scale=(1.00, 9.97, 1.00) bounds=(min:(4.90,80.22), max:(5.90,90.19))
+  Square (34) [Transform, SpriteRenderer, BoxCollider2D, BlightCorruptible] pos=(1.80, 89.89, 0.00) scale=(47.08, 1.00, 1.00) bounds=(min:(-21.74,89.39), max:(25.34,90.39))
+  Square (35) [Transform, SpriteRenderer, BoxCollider2D, BlightCorruptible] pos=(20.13, 74.60, 0.00) scale=(1.00, 1.00, 1.00) bounds=(min:(19.63,74.10), max:(20.63,75.10))
+  Square (37) [Transform, SpriteRenderer, BoxCollider2D, BlightCorruptible] pos=(28.12, 79.43, 0.00) scale=(1.00, 1.00, 1.00) bounds=(min:(27.62,78.93), max:(28.62,79.93))
+  Square (39) [Transform, SpriteRenderer, BoxCollider2D, BlightCorruptible] pos=(5.50, 96.71, 0.00) scale=(1.00, 1.00, 1.00) bounds=(min:(5.00,96.21), max:(6.00,97.21))
+  Square (40) [Transform, SpriteRenderer, BoxCollider2D, BlightCorruptible] pos=(5.50, 103.28, 0.00) scale=(1.00, 1.00, 1.00) bounds=(min:(5.00,102.78), max:(6.00,103.78))
+  Square (41) [Transform, SpriteRenderer, BoxCollider2D, BlightCorruptible] pos=(5.50, 110.22, 0.00) scale=(1.00, 1.00, 1.00) bounds=(min:(5.00,109.72), max:(6.00,110.72))
+  Square (42) [Transform, SpriteRenderer, BoxCollider2D, BlightCorruptible] pos=(11.57, 114.40, 0.00) scale=(1.00, 1.00, 1.00) bounds=(min:(11.07,113.90), max:(12.07,114.90))
+  Square (43) [Transform, SpriteRenderer, BoxCollider2D, BlightCorruptible] pos=(8.95, 121.73, 0.00) scale=(1.00, 1.00, 1.00) bounds=(min:(8.45,121.23), max:(9.45,122.23))
+  Square (44) [Transform, SpriteRenderer, BoxCollider2D, BlightCorruptible] pos=(11.97, 129.09, 0.00) scale=(1.00, 1.00, 1.00) bounds=(min:(11.47,128.59), max:(12.47,129.59))
+  Square (45) [Transform, SpriteRenderer, BoxCollider2D, BlightCorruptible] pos=(5.55, 140.83, 0.00) scale=(2.73, 1.00, 1.00) bounds=(min:(4.19,140.33), max:(6.91,141.33))
+  Square (46) [Transform, SpriteRenderer, BoxCollider2D, BlightCorruptible] pos=(5.55, 133.51, 0.00) scale=(1.00, 1.00, 1.00) bounds=(min:(5.05,133.01), max:(6.05,134.01))
+  Square (47) [Transform, SpriteRenderer, BoxCollider2D, BlightCorruptible] pos=(3.63, 141.81, 0.00) scale=(1.00, 1.00, 1.00) bounds=(min:(3.13,141.31), max:(4.13,142.31))
+  Square (48) [Transform, SpriteRenderer, BoxCollider2D, BlightCorruptible] pos=(2.53, 142.74, 0.00) scale=(1.00, 1.00, 1.00) bounds=(min:(2.03,142.24), max:(3.03,143.24))
+  Square (49) [Transform, SpriteRenderer, BoxCollider2D, BlightCorruptible] pos=(1.53, 143.88, 0.00) scale=(1.00, 1.00, 1.00) bounds=(min:(1.03,143.38), max:(2.03,144.38))
+  Square (50) [Transform, SpriteRenderer, BoxCollider2D, BlightCorruptible] pos=(0.50, 144.80, 0.00) scale=(1.00, 1.00, 1.00) bounds=(min:(0.00,144.30), max:(1.00,145.30))
+  Square (51) [Transform, SpriteRenderer, BoxCollider2D, BlightCorruptible] pos=(-0.55, 145.85, 0.00) scale=(1.00, 1.00, 1.00) bounds=(min:(-1.05,145.35), max:(-0.05,146.35))
+  Square (52) [Transform, SpriteRenderer, BoxCollider2D, BlightCorruptible] pos=(-1.56, 146.93, 0.00) scale=(1.00, 1.00, 1.00) bounds=(min:(-2.06,146.43), max:(-1.06,147.43))
+  Square (38) [Transform, SpriteRenderer, BoxCollider2D, BlightCorruptible] pos=(36.87, 88.54, 0.00) scale=(1.00, 13.64, 1.00) bounds=(min:(36.37,81.72), max:(37.37,95.36))
+  Square (32) [Transform, SpriteRenderer, BoxCollider2D, BlightCorruptible] pos=(5.40, 76.41, 0.00) scale=(1.00, 3.45, 1.00) bounds=(min:(4.90,74.69), max:(5.90,78.14))
+  Square (33) [Transform, SpriteRenderer, BoxCollider2D, BlightCorruptible] pos=(8.95, 75.15, 0.00) scale=(6.73, 1.00, 1.00) bounds=(min:(5.59,74.65), max:(12.32,75.65))
+  Finish [Transform] pos=(-125.86, 101.66, 0.00) scale=(1.00, 1.00, 1.00)
+    Finish Platform [Transform, SpriteRenderer, BoxCollider2D, BlightCorruptible] pos=(-21.23, 148.13, 0.00) scale=(37.95, 1.00, 1.00) bounds=(min:(-40.20,147.63), max:(-2.25,148.63))
+    Finish Texts [Transform] pos=(-28.52, 153.91, 1.00) scale=(1.00, 1.00, 1.00)
+      Win [RectTransform, MeshRenderer, TextMeshPro] pos=(-28.52, 156.64, 1.00) scale=(1.00, 1.00, 1.00)
+      Feedback Text [RectTransform, MeshRenderer, TextMeshPro] pos=(-28.52, 155.13, 1.00) scale=(1.00, 1.00, 1.00)
+      Die To Retry [RectTransform, MeshRenderer, TextMeshPro] pos=(-28.52, 153.25, 1.00) scale=(1.00, 1.00, 1.00)
+    Blight Run Gate [Transform] pos=(-23.95, 153.82, 0.00) scale=(1.00, 1.00, 1.00)
+      Well Done [RectTransform, MeshRenderer, TextMeshPro, MeshFilter] pos=(-14.88, 153.70, 0.00) scale=(1.00, 1.00, 1.00)
+      Let's See [RectTransform, MeshRenderer, TextMeshPro, MeshFilter] pos=(-17.67, 151.91, 0.00) scale=(1.00, 1.00, 1.00)
+      Blight Text [RectTransform, MeshRenderer, TextMeshPro, MeshFilter] pos=(-10.30, 151.91, 0.00) scale=(1.00, 1.00, 1.00)
+      Gate [Transform, SpriteRenderer, BoxCollider2D, BeginBlightRunTrigger] pos=(-30.14, 153.33, 0.00) scale=(8.03, 9.55, 1.00) bounds=(min:(-34.16,148.55), max:(-26.12,158.11))
+      Left Guide (1) [RectTransform, MeshRenderer, TextMeshPro, MeshFilter] pos=(-9.29, 149.90, 1.00) scale=(1.00, 1.00, 1.00)
+        TMP SubMesh [LiberationSans SDF Material + LiberationSans SDF Atlas] [Transform, MeshRenderer, TMP_SubMesh, MeshFilter] pos=(-9.29, 149.90, 1.00) scale=(1.00, 1.00, 1.00)
+      Left Guide (2) [RectTransform, MeshRenderer, TextMeshPro, MeshFilter] pos=(-19.31, 149.90, 1.00) scale=(1.00, 1.00, 1.00)
+        TMP SubMesh [LiberationSans SDF Material + LiberationSans SDF Atlas] [Transform, MeshRenderer, TMP_SubMesh, MeshFilter] pos=(-19.31, 149.90, 1.00) scale=(1.00, 1.00, 1.00)
+  Easter Platforms [Transform] pos=(-2.30, 8.60, 0.00) scale=(1.00, 1.00, 1.00)
+    Cool Text [RectTransform, MeshRenderer, TextMeshPro] pos=(-32.96, 45.99, 0.00) scale=(1.00, 1.00, 1.00)
+Tutorial [Transform] pos=(-27.00, 0.00, 0.00) scale=(1.00, 1.00, 1.00)
+  Square (22) [Transform, SpriteRenderer, BoxCollider2D, BlightCorruptible] pos=(-73.03, -5.00, 0.00) scale=(112.63, 1.00, 1.00) bounds=(min:(-73.03,-5.00), max:(-73.03,-5.00))
+  Square (23) [Transform, SpriteRenderer, BoxCollider2D, BlightCorruptible] pos=(-65.66, -3.08, 0.00) scale=(1.00, 3.09, 1.00) bounds=(min:(-65.66,-3.08), max:(-65.66,-3.08))
+  Square (27) [Transform, SpriteRenderer, BoxCollider2D, BlightCorruptible] pos=(-59.38, -1.32, 0.00) scale=(1.00, 6.99, 1.00) bounds=(min:(-59.38,-1.32), max:(-59.38,-1.32))
+  Square (28) [Transform, SpriteRenderer, BoxCollider2D, BlightCorruptible] pos=(-54.09, -3.83, 0.00) scale=(1.00, 1.74, 1.00) bounds=(min:(-54.09,-3.83), max:(-54.09,-3.83))
+  Square (25) [Transform, SpriteRenderer, BoxCollider2D, BlightCorruptible] pos=(-96.46, -3.87, 0.00) scale=(1.00, 1.58, 1.00) bounds=(min:(-96.46,-3.87), max:(-96.46,-3.87))
+  Square (26) [Transform, SpriteRenderer, BoxCollider2D, BlightCorruptible] pos=(-89.39, -2.97, 0.00) scale=(1.00, 3.45, 1.00) bounds=(min:(-89.39,-2.97), max:(-89.39,-2.97))
+  Square (24) [Transform, SpriteRenderer, BoxCollider2D, BlightCorruptible] pos=(-71.70, 1.14, 0.00) scale=(1.00, 11.50, 1.00) bounds=(min:(-71.70,1.14), max:(-71.70,1.14))
+  Text1 [RectTransform, MeshRenderer, TextMeshPro] pos=(-122.89, 0.05, 1.14) scale=(1.00, 1.00, 1.00)
+  Text5 [RectTransform, MeshRenderer, TextMeshPro] pos=(-110.29, -0.17, 1.14) scale=(1.00, 1.00, 1.00)
+  Text2 [RectTransform, MeshRenderer, TextMeshPro] pos=(-89.41, 1.30, 1.14) scale=(1.00, 1.00, 1.00)
+  Text3 [RectTransform, MeshRenderer, TextMeshPro] pos=(-78.24, -1.56, 1.14) scale=(1.00, 1.00, 1.00)
+  Text4 [RectTransform, MeshRenderer, TextMeshPro] pos=(-77.25, 4.56, 1.14) scale=(1.00, 1.00, 1.00)
+  Text4 (1) [RectTransform, MeshRenderer, TextMeshPro] pos=(-39.24, 4.47, 1.14) scale=(1.00, 1.00, 1.00)
+  Right Guide (1) [RectTransform, MeshRenderer, TextMeshPro] pos=(-32.61, 0.69, 1.00) scale=(1.00, 1.00, 1.00)
+Tutorial Blight [Transform] pos=(-113.00, 0.29, 0.00) scale=(1.00, 1.00, 1.00)
+  This is Blight [RectTransform, MeshRenderer, TextMeshPro, MeshFilter] pos=(-176.82, 0.03, 0.00) scale=(1.00, 1.00, 1.00)
+  Arrow [RectTransform, MeshRenderer, TextMeshPro, MeshFilter] pos=(-171.00, 0.57, 0.00) scale=(1.00, 1.00, 1.00)
+    TMP SubMesh [LiberationSans SDF Material + LiberationSans SDF Atlas] [Transform, MeshRenderer, TMP_SubMesh, MeshFilter] pos=(-171.00, 0.57, 0.00) scale=(1.00, 1.00, 1.00)
+  Try to Escape [RectTransform, MeshRenderer, TextMeshPro, MeshFilter] pos=(-162.50, -0.12, 0.00) scale=(1.00, 1.00, 1.00)
+  Right Guide (1) [RectTransform, MeshRenderer, TextMeshPro, MeshFilter] pos=(-155.78, -1.21, 1.00) scale=(1.00, 1.00, 1.00)
+    TMP SubMesh [LiberationSans SDF Material + LiberationSans SDF Atlas] [Transform, MeshRenderer, TMP_SubMesh, MeshFilter] pos=(-155.78, -1.21, 1.00) scale=(1.00, 1.00, 1.00)
+  You Escaped [RectTransform, MeshRenderer, TextMeshPro, MeshFilter] pos=(-151.18, -0.60, 0.00) scale=(1.00, 1.00, 1.00)
+  Blight Will Corrupt [RectTransform, MeshRenderer, TextMeshPro, MeshFilter] pos=(-139.40, -0.51, 0.00) scale=(1.00, 1.00, 1.00)
+  Decrease Running Speed [RectTransform, MeshRenderer, TextMeshPro, MeshFilter] pos=(-80.72, -0.14, 0.00) scale=(1.00, 1.00, 1.00)
+  No Stick [RectTransform, MeshRenderer, TextMeshPro, MeshFilter] pos=(-50.52, -0.14, 0.00) scale=(1.00, 1.00, 1.00)
+  Corrupts You [RectTransform, MeshRenderer, TextMeshPro, MeshFilter] pos=(-121.87, -0.14, 0.00) scale=(1.00, 1.00, 1.00)
+  Kills You [RectTransform, MeshRenderer, TextMeshPro, MeshFilter] pos=(-101.71, -0.14, 0.00) scale=(1.00, 1.00, 1.00)
+  Kills You (1) [RectTransform, MeshRenderer, TextMeshPro, MeshFilter] pos=(-23.02, -0.14, 0.00) scale=(1.00, 1.00, 1.00)
+  Corruptible Platform [Transform, SpriteRenderer, BoxCollider2D, BlightCorruptible] pos=(-178.58, -5.02, 0.00) scale=(15.23, 1.00, 1.00) bounds=(min:(-186.20,-5.52), max:(-170.96,-4.52))
+  Corruptible Platform (1) [Transform, SpriteRenderer, BoxCollider2D, BlightCorruptible] pos=(-185.72, -0.30, 0.00) scale=(1.00, 10.44, 1.00) bounds=(min:(-186.22,-5.52), max:(-185.22,4.92))
+  Corruptible Platform (2) [Transform, SpriteRenderer, BoxCollider2D, BlightCorruptible] pos=(-163.50, -5.02, 0.00) scale=(8.81, 1.00, 1.00) bounds=(min:(-167.91,-5.52), max:(-159.10,-4.52))
+  Corruptible Platform (7) [Transform, SpriteRenderer, BoxCollider2D, BlightCorruptible] pos=(-139.92, 2.65, 0.00) scale=(4.58, 1.00, 1.00) bounds=(min:(-142.21,2.15), max:(-137.63,3.15))
+  Corruptible Platform (3) [Transform, SpriteRenderer, BoxCollider2D, BlightCorruptible] pos=(-116.09, -5.02, 0.00) scale=(81.67, 1.00, 1.00) bounds=(min:(-156.93,-5.52), max:(-75.26,-4.52))
+  Corruptible Platform (4) [Transform, SpriteRenderer, BoxCollider2D, BlightCorruptible] pos=(-68.64, -5.02, 0.00) scale=(13.22, 1.00, 1.00) bounds=(min:(-75.26,-5.52), max:(-62.03,-4.52))
+  Corruptible Platform (5) [Transform, SpriteRenderer, BoxCollider2D, BlightCorruptible] pos=(-39.99, -5.02, 0.00) scale=(44.09, 1.00, 1.00) bounds=(min:(-62.03,-5.52), max:(-17.95,-4.52))
+  Corruptible Platform (6) [Transform, SpriteRenderer, BoxCollider2D, BlightCorruptible] pos=(-40.07, 1.35, 0.00) scale=(1.00, 13.73, 1.00) bounds=(min:(-40.57,-5.52), max:(-39.57,8.21))
+  Corruptible Platform (8) [Transform, SpriteRenderer, BoxCollider2D, BlightCorruptible] pos=(-114.50, -4.48, 0.00) scale=(1.00, 2.07, 1.00) bounds=(min:(-115.00,-5.52), max:(-114.00,-3.45))
+  Corruptible Platform (9) [Transform, SpriteRenderer, BoxCollider2D, BlightCorruptible] pos=(-113.50, -3.91, 0.00) scale=(1.00, 3.23, 1.00) bounds=(min:(-114.00,-5.52), max:(-113.00,-2.29))
+Up Guide [RectTransform, MeshRenderer, TextMeshPro, MeshFilter] pos=(25.65, 10.85, 1.00) scale=(1.00, 1.00, 1.00)
+  TMP SubMesh [LiberationSans SDF Material + LiberationSans SDF Atlas] [Transform, MeshRenderer, TMP_SubMesh, MeshFilter] pos=(25.65, 10.85, 1.00) scale=(1.00, 1.00, 1.00)
+Up Guide (1) [RectTransform, MeshRenderer, TextMeshPro, MeshFilter] pos=(84.90, 12.12, 1.00) scale=(1.00, 1.00, 1.00)
+  TMP SubMesh [LiberationSans SDF Material + LiberationSans SDF Atlas] [Transform, MeshRenderer, TMP_SubMesh, MeshFilter] pos=(84.90, 12.12, 1.00) scale=(1.00, 1.00, 1.00)
+Up Guide (2) [RectTransform, MeshRenderer, TextMeshPro, MeshFilter] pos=(19.60, 99.50, 1.00) scale=(1.00, 1.00, 1.00)
+  TMP SubMesh [LiberationSans SDF Material + LiberationSans SDF Atlas] [Transform, MeshRenderer, TMP_SubMesh, MeshFilter] pos=(19.60, 99.50, 1.00) scale=(1.00, 1.00, 1.00)
+Right Guide [RectTransform, MeshRenderer, TextMeshPro, MeshFilter] pos=(-4.40, 84.40, 1.00) scale=(1.00, 1.00, 1.00)
+  TMP SubMesh [LiberationSans SDF Material + LiberationSans SDF Atlas] [Transform, MeshRenderer, TMP_SubMesh, MeshFilter] pos=(-4.40, 84.40, 1.00) scale=(1.00, 1.00, 1.00)
+Left Guide [RectTransform, MeshRenderer, TextMeshPro, MeshFilter] pos=(69.08, 46.41, 1.00) scale=(1.00, 1.00, 1.00)
+  TMP SubMesh [LiberationSans SDF Material + LiberationSans SDF Atlas] [Transform, MeshRenderer, TMP_SubMesh, MeshFilter] pos=(69.08, 46.41, 1.00) scale=(1.00, 1.00, 1.00)
+Down Guide [RectTransform, MeshRenderer, TextMeshPro, MeshFilter] pos=(79.60, 28.92, 1.00) scale=(1.00, 1.00, 1.00)
+  TMP SubMesh [LiberationSans SDF Material + LiberationSans SDF Atlas] [Transform, MeshRenderer, TMP_SubMesh, MeshFilter] pos=(79.60, 28.92, 1.00) scale=(1.00, 1.00, 1.00)
+Route Draw [Transform, PlaytestRouteViewer] pos=(63.57, 31.05, 0.00) scale=(1.00, 1.00, 1.00)
+Game Manager [Transform, GameManager, PauseMenu] pos=(0.00, 0.00, 0.00) scale=(1.00, 1.00, 1.00)
+Canvas [RectTransform, Canvas, CanvasScaler, GraphicRaycaster] pos=(414.00, 233.00, 0.00) scale=(1.00, 1.00, 1.00)
+  Pause Panel [RectTransform, CanvasRenderer, Image] pos=(414.00, 234.15, 0.00) scale=(1.00, 1.00, 1.00)
+    Paused Text [RectTransform, CanvasRenderer, TextMeshProUGUI] pos=(414.00, 391.15, 0.00) scale=(1.00, 1.00, 1.00)
+    Resume Button [RectTransform, CanvasRenderer, Image, Button] pos=(414.00, 344.15, 0.00) scale=(1.00, 1.00, 1.00)
+      Text (TMP) [RectTransform, CanvasRenderer, TextMeshProUGUI] pos=(414.00, 344.15, 0.00) scale=(1.00, 1.00, 1.00)
+    Restart Clean Run Button [RectTransform, CanvasRenderer, Image, Button] pos=(414.00, 281.15, 0.00) scale=(1.00, 1.00, 1.00)
+      Text (TMP) [RectTransform, CanvasRenderer, TextMeshProUGUI] pos=(414.00, 281.15, 0.00) scale=(1.00, 1.00, 1.00)
+    Restart Blight Run Button [RectTransform, CanvasRenderer, Image, Button] pos=(414.00, 218.15, 0.00) scale=(1.00, 1.00, 1.00)
+      Text (TMP) [RectTransform, CanvasRenderer, TextMeshProUGUI] pos=(414.00, 218.15, 0.00) scale=(1.00, 1.00, 1.00)
+    Send Feedback Button [RectTransform, CanvasRenderer, Image, Button] pos=(414.00, 153.15, 0.00) scale=(1.00, 1.00, 1.00)
+      Text (TMP) [RectTransform, CanvasRenderer, TextMeshProUGUI] pos=(414.00, 153.15, 0.00) scale=(1.00, 1.00, 1.00)
+    Exit Button [RectTransform, CanvasRenderer, Image, Button] pos=(414.00, 88.15, 0.00) scale=(1.00, 1.00, 1.00)
+      Text (TMP) [RectTransform, CanvasRenderer, TextMeshProUGUI] pos=(414.00, 88.15, 0.00) scale=(1.00, 1.00, 1.00)
+EventSystem [Transform, EventSystem, InputSystemUIInputModule] pos=(0.00, 0.00, 0.00) scale=(1.00, 1.00, 1.00)
+Blight Manager [Transform, BlightManager] pos=(0.00, 0.00, 0.00) scale=(1.00, 1.00, 1.00)
+Blight Zones [Transform] pos=(0.00, 0.00, 1.00) scale=(1.00, 1.00, 1.00)
+  bz [Transform, BlightZone] pos=(-15.80, 12.20, 1.00) scale=(1.00, 1.00, 1.00)
+    bottom-centered-square_0 [Transform, SpriteRenderer] pos=(-15.80, 12.20, 1.00) scale=(1.00, 1.00, 1.00)
+    Particle System [Transform, ParticleSystem, ParticleSystemRenderer] pos=(-15.80, 12.20, 1.00) scale=(1.00, 1.00, 1.00)
+  Blight Zone [Transform, BlightZone] pos=(35.17, 30.52, 1.00) scale=(1.00, 1.00, 1.00)
+    bottom-centered-square_0 [Transform, SpriteRenderer] pos=(35.17, 30.52, 1.00) scale=(1.00, 1.00, 1.00)
+    Particle System [Transform, ParticleSystem, ParticleSystemRenderer] pos=(35.17, 30.52, 1.00) scale=(1.00, 1.00, 1.00)
+  Blight Zone (1) [Transform, BlightZone] pos=(26.60, 2.50, 1.00) scale=(1.00, 1.00, 1.00)
+    bottom-centered-square_0 [Transform, SpriteRenderer] pos=(26.60, 2.50, 1.00) scale=(1.00, 1.00, 1.00)
+    Particle System [Transform, ParticleSystem, ParticleSystemRenderer] pos=(26.60, 2.50, 1.00) scale=(1.00, 1.00, 1.00)
+  Blight Zone (2) [Transform, BlightZone] pos=(51.10, 0.20, 1.00) scale=(1.00, 1.00, 1.00)
+    bottom-centered-square_0 [Transform, SpriteRenderer] pos=(51.10, 0.20, 1.00) scale=(1.00, 1.00, 1.00)
+    Particle System [Transform, ParticleSystem, ParticleSystemRenderer] pos=(51.10, 0.20, 1.00) scale=(1.00, 1.00, 1.00)
+  Blight Zone (3) [Transform, BlightZone] pos=(44.00, 18.40, 1.00) scale=(1.00, 1.00, 1.00)
+    bottom-centered-square_0 [Transform, SpriteRenderer] pos=(44.00, 18.40, 1.00) scale=(1.00, 1.00, 1.00)
+    Particle System [Transform, ParticleSystem, ParticleSystemRenderer] pos=(44.00, 18.40, 1.00) scale=(1.00, 1.00, 1.00)
+  Blight Zone (4) [Transform, BlightZone] pos=(82.82, 18.40, 1.00) scale=(1.00, 1.00, 1.00)
+    bottom-centered-square_0 [Transform, SpriteRenderer] pos=(82.82, 18.40, 1.00) scale=(1.00, 1.00, 1.00)
+    Particle System [Transform, ParticleSystem, ParticleSystemRenderer] pos=(82.82, 18.40, 1.00) scale=(1.00, 1.00, 1.00)
+  Blight Zone (5) [Transform, BlightZone] pos=(87.20, 52.10, 1.00) scale=(1.00, 1.00, 1.00)
+    bottom-centered-square_0 [Transform, SpriteRenderer] pos=(87.20, 52.10, 1.00) scale=(1.00, 1.00, 1.00)
+    Particle System [Transform, ParticleSystem, ParticleSystemRenderer] pos=(87.20, 52.10, 1.00) scale=(1.00, 1.00, 1.00)
+  Blight Zone (6) [Transform, BlightZone] pos=(46.00, 33.00, 1.00) scale=(1.00, 1.00, 1.00)
+    bottom-centered-square_0 [Transform, SpriteRenderer] pos=(46.00, 33.00, 1.00) scale=(1.00, 1.00, 1.00)
+    Particle System [Transform, ParticleSystem, ParticleSystemRenderer] pos=(46.00, 33.00, 1.00) scale=(1.00, 1.00, 1.00)
+  Blight Zone (7) [Transform, BlightZone] pos=(1.50, 29.10, 1.00) scale=(1.00, 1.00, 1.00)
+    bottom-centered-square_0 [Transform, SpriteRenderer] pos=(1.50, 29.10, 1.00) scale=(1.00, 1.00, 1.00)
+    Particle System [Transform, ParticleSystem, ParticleSystemRenderer] pos=(1.50, 29.10, 1.00) scale=(1.00, 1.00, 1.00)
+  Blight Zone (8) [Transform, BlightZone] pos=(-21.10, 79.30, 1.00) scale=(1.00, 1.00, 1.00)
+    bottom-centered-square_0 [Transform, SpriteRenderer] pos=(-21.10, 79.30, 1.00) scale=(1.00, 1.00, 1.00)
+    Particle System [Transform, ParticleSystem, ParticleSystemRenderer] pos=(-21.10, 79.30, 1.00) scale=(1.00, 1.00, 1.00)
+  Blight Zone (9) [Transform, BlightZone] pos=(5.14, 88.49, 1.00) scale=(1.00, 1.00, 1.00)
+    bottom-centered-square_0 [Transform, SpriteRenderer] pos=(5.14, 88.49, 1.00) scale=(1.00, 1.00, 1.00)
+    Particle System [Transform, ParticleSystem, ParticleSystemRenderer] pos=(5.14, 88.49, 1.00) scale=(1.00, 1.00, 1.00)
+  Blight Zone (10) [Transform, BlightZone] pos=(-169.12, -0.11, 0.00) scale=(1.00, 1.00, 1.00)
+    bottom-centered-square_0 [Transform, SpriteRenderer] pos=(-169.12, -0.11, 0.00) scale=(1.00, 1.00, 1.00)
+    Particle System [Transform, ParticleSystem, ParticleSystemRenderer] pos=(-169.12, -0.11, 0.00) scale=(1.00, 1.00, 1.00)
+  Blight Zone (11) [Transform, BlightZone] pos=(-145.87, 3.26, 0.00) scale=(1.00, 1.00, 1.00)
+    bottom-centered-square_0 [Transform, SpriteRenderer] pos=(-145.87, 3.26, 0.00) scale=(1.00, 1.00, 1.00)
+    Particle System [Transform, ParticleSystem, ParticleSystemRenderer] pos=(-145.87, 3.26, 0.00) scale=(1.00, 1.00, 1.00)
+Blight Trigger Zones [Transform] pos=(0.00, 0.00, 0.00) scale=(1.00, 1.00, 1.00)
+  Blight Trigger Zone (9) [Transform, BoxCollider2D, BlightTriggerZone] pos=(-215.42, 26.30, 0.00) scale=(1.00, 1.00, 1.00) bounds=(min:(-185.42,-5.52), max:(-172.15,18.33))
+  Blight Trigger Zone (10) [Transform, BoxCollider2D, BlightTriggerZone] pos=(-215.42, 26.30, 0.00) scale=(1.00, 1.00, 1.00) bounds=(min:(-185.42,-5.52), max:(-172.15,9.79))
+  Blight Trigger Zone (11) [Transform, BoxCollider2D, BlightTriggerZone] pos=(-199.13, 23.85, 0.00) scale=(1.00, 1.00, 1.00) bounds=(min:(-169.13,-7.97), max:(-158.06,7.34))
+  Blight Trigger Zone (12) [Transform, BoxCollider2D, BlightTriggerZone] pos=(-187.34, 23.88, 0.00) scale=(1.00, 1.00, 1.00) bounds=(min:(-157.34,-7.94), max:(-147.73,7.37))
+  Blight Trigger Zone (13) [Transform, BoxCollider2D, BlightTriggerZone] pos=(-186.85, 26.71, 0.00) scale=(1.00, 1.00, 1.00) bounds=(min:(-156.85,-5.11), max:(-148.00,7.50))
+  Blight Trigger Zone (14) [Transform, BoxCollider2D, BlightTriggerZone] pos=(-176.51, 23.85, 0.00) scale=(1.00, 1.00, 1.00) bounds=(min:(-146.51,-7.97), max:(-137.17,7.34))
+  Blight Trigger Zone [Transform, BoxCollider2D, BlightTriggerZone] pos=(-95.00, 26.00, 0.00) scale=(1.00, 1.00, 1.00) bounds=(min:(-56.42,-5.82), max:(-17.47,18.32))
+  Blight Trigger Zone (1) [Transform, BoxCollider2D, BlightTriggerZone] pos=(-39.70, 25.30, 0.00) scale=(1.00, 1.00, 1.00) bounds=(min:(-15.38,-6.52), max:(11.78,8.47))
+  Blight Trigger Zone (2) [Transform, BoxCollider2D, BlightTriggerZone] pos=(-83.20, 26.39, 0.00) scale=(1.00, 1.00, 1.00) bounds=(min:(-58.88,-5.43), max:(-17.19,18.47))
+  Blight Trigger Zone (3) [Transform, BoxCollider2D, BlightTriggerZone] pos=(46.40, 72.10, 0.00) scale=(1.00, 1.00, 1.00) bounds=(min:(75.14,40.03), max:(87.68,51.05))
+  Blight Trigger Zone (4) [Transform, BoxCollider2D, BlightTriggerZone] pos=(46.40, 72.10, 0.00) scale=(1.00, 1.00, 1.00) bounds=(min:(74.86,42.64), max:(82.89,56.92))
+  Blight Trigger Zone (5) [Transform, BoxCollider2D, BlightTriggerZone] pos=(37.48, 72.10, 0.00) scale=(1.00, 1.00, 1.00) bounds=(min:(63.88,42.67), max:(74.28,52.81))
+  Blight Trigger Zone (6) [Transform, BoxCollider2D, BlightTriggerZone] pos=(-2.12, 118.94, 0.00) scale=(1.00, 1.00, 1.00) bounds=(min:(25.53,89.51), max:(32.81,99.65))
+  Blight Trigger Zone (7) [Transform, BoxCollider2D, BlightTriggerZone] pos=(1.25, 118.77, 0.00) scale=(1.00, 1.00, 1.00) bounds=(min:(25.67,89.34), max:(32.87,99.58))
+  Blight Trigger Zone (8) [Transform, BoxCollider2D, BlightTriggerZone] pos=(-12.12, 118.77, 0.00) scale=(1.00, 1.00, 1.00) bounds=(min:(15.53,89.34), max:(22.81,103.54))
+Check Points [Transform] pos=(77.12, 43.74, 0.00) scale=(1.00, 1.00, 1.00)
+  Check Point (1) [Transform] pos=(-27.28, -1.16, 0.00) scale=(1.00, 1.00, 1.00)
+    trigger [Transform, BoxCollider2D, CheckpointTrigger] pos=(-27.48, -4.06, 0.00) scale=(1.00, 1.00, 1.00) bounds=(min:(-31.35,-5.11), max:(-24.22,5.33))
+    Checkpoint Text [RectTransform, MeshRenderer, TextMeshPro] pos=(-25.89, 0.74, 1.00) scale=(1.00, 1.00, 1.00)
+    Uncorruptible Platform [Transform, SpriteRenderer, BoxCollider2D] pos=(-25.87, -2.51, 0.00) scale=(7.33, 1.00, 1.00) bounds=(min:(-25.87,-2.51), max:(-25.87,-2.51))
+  Check Point [Transform] pos=(77.12, 43.74, 0.00) scale=(1.00, 1.00, 1.00)
+    trigger [Transform, BoxCollider2D, CheckpointTrigger] pos=(78.85, 43.74, 0.00) scale=(1.00, 1.00, 1.00) bounds=(min:(74.98,42.69), max:(82.11,53.13))
+    Checkpoint Text [RectTransform, MeshRenderer, TextMeshPro, MeshFilter] pos=(78.51, 45.64, 1.00) scale=(1.00, 1.00, 1.00)
+    Uncorruptible Platform [Transform, SpriteRenderer, BoxCollider2D] pos=(78.53, 42.39, 0.00) scale=(7.33, 1.00, 1.00) bounds=(min:(74.87,41.89), max:(82.20,42.89))
+  Check Point [Transform] pos=(27.52, 91.34, 0.00) scale=(1.00, 1.00, 1.00)
+    trigger [Transform, BoxCollider2D, CheckpointTrigger] pos=(29.25, 91.34, 0.00) scale=(1.00, 1.00, 1.00) bounds=(min:(25.38,90.28), max:(32.52,100.73))
+    Checkpoint Text [RectTransform, MeshRenderer, TextMeshPro, MeshFilter] pos=(28.91, 93.24, 1.00) scale=(1.00, 1.00, 1.00)
+    Uncorruptible Platform [Transform, SpriteRenderer, BoxCollider2D] pos=(28.93, 89.89, 0.00) scale=(7.33, 1.00, 1.00) bounds=(min:(25.27,89.39), max:(32.60,90.39))
+GameObject [Transform] pos=(-29.80, 0.00, 0.00) scale=(1.00, 1.00, 1.00)

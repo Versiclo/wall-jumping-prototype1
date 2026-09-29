@@ -1,5 +1,7 @@
 # Restless Square: Design Devlog
 
+[فارسی](Game_Design_Log_Fa.md)
+
 A solo-built precision platformer prototype (Unity 6.5, URP) about fast, momentum-based movement under a spreading corruption mechanic called **Blight**. The question it tests: **can you execute under pressure?**
 
 - **Built:** movement system, Blight, checkpoints, a vertical-tower level, and playtest analysis tools.
@@ -28,7 +30,7 @@ A solo-built precision platformer prototype (Unity 6.5, URP) about fast, momentu
 
 ## Blight: pressure you can read
 
-![Fast movement with Blight tailing behind, ending in a hesitation and failure](https://claude.ai/chat/blight-chase.gif)
+![Fast movement with Blight tailing behind, ending in a hesitation and failure](Cover.gif)
 
 A dark front advances through the level. Platforms it passes become corrupted: corrupted walls lose their stick time, and corrupted ground caps the player's speed to two thirds of normal, so the only way out is to jump. Stall, and you die.
 

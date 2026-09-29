@@ -56,6 +56,7 @@ public class PlayerController : MonoBehaviour
     // this variable reads and holds the initial gravity scale for restoration
     float defaultGravityScale;
     bool jumpRequested = false;
+    bool jumpHeld;
 
     bool touchingWallLeft;
     bool touchingWallRight;
@@ -97,17 +98,25 @@ public class PlayerController : MonoBehaviour
     {
         controls.Player.Enable();
         controls.Player.Jump.performed += OnJumpPerformed;
+        controls.Player.Jump.canceled += OnJumpCanceled;
     }
 
     void OnDisable()
     {
         controls.Player.Jump.performed -= OnJumpPerformed;
+        controls.Player.Jump.canceled -= OnJumpCanceled;
         controls.Player.Disable();
     }
 
     void OnJumpPerformed(UnityEngine.InputSystem.InputAction.CallbackContext ctx)
     {
         jumpRequested = true; // just raise a flag — don't touch physics here
+        jumpHeld = true;
+    }
+
+    void OnJumpCanceled(UnityEngine.InputSystem.InputAction.CallbackContext ctx)
+    {
+        jumpHeld = false;
     }
 
     void FixedUpdate()
@@ -298,7 +307,7 @@ public class PlayerController : MonoBehaviour
     void Fall()
     {
         // Snappier fall, independent of Gravity Scale
-        if (playerRb.linearVelocityY < 0f)
+        if (playerRb.linearVelocityY < 0f && !isGrounded)
         {
             playerRb.AddForce(Vector2.up * Physics2D.gravity.y * playerRb.gravityScale * (fallGravityMultiplier - 1f) * playerRb.mass);
         }
@@ -349,7 +358,7 @@ public class PlayerController : MonoBehaviour
         if (
             (playerStatus == PlayerStatus.Airborne || playerStatus == PlayerStatus.WallSliding)
             && playerRb.linearVelocityY > 0f
-            && !controls.Player.Jump.IsPressed()
+            && !jumpHeld
             )
         {
             playerRb.linearVelocityY *= jumpCutMultiplier;

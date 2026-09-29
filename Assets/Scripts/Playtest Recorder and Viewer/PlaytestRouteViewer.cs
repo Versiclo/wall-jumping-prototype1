@@ -51,7 +51,7 @@ public class PlaytestRouteViewer : MonoBehaviour
         public TextAsset log;
         public int run;
         public bool blighted; // informational, set by Refresh — not hand-edited
-        public bool visible = true;
+        public bool visible = false;
     }
 
     class ParsedLog
@@ -145,7 +145,7 @@ public class PlaytestRouteViewer : MonoBehaviour
                     log = asset,
                     run = run,
                     blighted = log.blightRuns.Contains(run),
-                    visible = existing != null ? existing.visible : true
+                    visible = existing != null ? existing.visible : false
                 });
             }
         }
